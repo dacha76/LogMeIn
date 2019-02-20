@@ -3,7 +3,8 @@
 #include "../include/aor_server.h"
 #include "../include/aor_server_rc.h"
 
-#include "source/server/include/server.h"
+#include "server/include/server.h"
+#include "server/include/server_socket.h"
 
 int main(int argc, char **argv)
 {
@@ -13,33 +14,12 @@ int main(int argc, char **argv)
     returnCode = ServerInit();
     if ( returnCode == cAOR_SERVER_RC_OK )
     {
-        FILE * pFile = fopen("Test.txt", "wt");
-        AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
-        
-        ServerCnctAdd(0x33);
-        ServerCnctAdd(12);
-        ServerCnctAdd(5002);
-               
-        // Dump the content of JSON entry into a file.
-        if (pFile)
+        // Poll our socket until something goes bad.
+        do
         {
-            char Aor[] = "0142e2fa3543cb32bf000100620002";
-            tJSON_ENTRY * pJsonEntry;
+            returnCode = ServerSocketPoll();
             
-            // Lookup the entry
-            pJsonEntry = ServerJsonEntryLookup(Aor);
-            if ( pJsonEntry )
-                ServerJsonEntryLog(pFile, pJsonEntry);
-            else
-                pServerCtx->Stats.numLookupEntryNotFound++;
-
-            fclose(pFile);
-        }
-        
-        
-        
-        
-     
+        } while (returnCode == cAOR_SERVER_RC_OK);
     }
     
     // terminate the server.

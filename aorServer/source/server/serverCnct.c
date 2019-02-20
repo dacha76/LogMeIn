@@ -23,9 +23,7 @@
 /************************************************************\
   Function: ServerCnctAdd
 \************************************************************/
-tCLIENT_CNCT * ServerCnctAdd(
-    const unsigned short f_ClientPort
-    )
+tCLIENT_CNCT * ServerCnctAdd()
 {
     AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
     tCLIENT_CNCT * pCnct = NULL;
@@ -40,9 +38,6 @@ tCLIENT_CNCT * ServerCnctAdd(
         // get the time of creation.
         time(&pCnct->timeStart);
         pCnct->timeLastRequest = pCnct->timeStart;
-        
-        // Set the client information        
-        pCnct->clientPort = f_ClientPort;
         
         // Now insert the entry in the list.
         pCnct->pNext = pServerCtx->pClientCnct;
@@ -106,33 +101,3 @@ int ServerCnctRemove(
     return returnCode;
 }
 
-
-/************************************************************\
-  Function: ServerCnctLookup
-\************************************************************/
-tCLIENT_CNCT * ServerCnctLookup(
-    const unsigned short f_ClientPort
-    )
-{
-    AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
-    tCLIENT_CNCT * pCnct = NULL;
-    tCLIENT_CNCT * pCnctTemp = pServerCtx->pClientCnct;
-    
-    // Parse the connection list to find this connecion's entry
-    for (int i=0; i<pServerCtx->numClientCnct; i++)
-    {
-        if (pCnctTemp->clientPort == f_ClientPort)
-        {
-            // We have a hit... 
-            pCnct = pCnctTemp;
-            break;
-        }
-        else
-        {
-            // Move to the next entry.
-            pCnctTemp = pCnctTemp->pNext;
-        }
-    }
-        
-    return pCnct;
-}

@@ -21,20 +21,23 @@
 typedef struct {
     
     void * pNext;       // Next pointer used to linked entries.
-    
+ 
+    // Client's connection socket.
+    int socketTcpCnct;
+ 
     // Client information.
-    unsigned short clientPort;          // TCP port of this connection's client
-    // ADDRESSE clientAddr; // IPv4 address of this connection's client
+    struct sockaddr_in clientAddress;  
     
-    time_t  timeStart;  // Time, in seconds when this session was created.
+    time_t  timeStart;        // Time, in seconds when this session was created.
     time_t  timeLastRequest;  // Time, in seconds when the last request was received.
             
 } tCLIENT_CNCT;
 
 /////////////////////// FUNCTIONS ////////////////////////////
 
-tCLIENT_CNCT * ServerCnctAdd(
-    const unsigned short f_ClientPort
-    );
+tCLIENT_CNCT * ServerCnctAdd();
 
+int ServerCnctRemove(
+    tCLIENT_CNCT * f_pCnct
+    );
 #endif /*__SERVER_CLIENT_CNCT_H__*/

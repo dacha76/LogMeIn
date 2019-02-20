@@ -33,6 +33,10 @@ typedef struct
 
 typedef struct
 {
+    // Socket information
+    int socketTcp;
+    struct sockaddr_in socketAddr; 
+    
     // JSON entries
     int numJsonEntry;
     tJSON_ENTRY * pJsonEntry;

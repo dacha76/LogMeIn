@@ -97,10 +97,12 @@
         <File Name="source/server/include/server.h"/>
         <File Name="source/server/include/server_json.h"/>
         <File Name="source/server/include/server_cnct.h"/>
+        <File Name="source/server/include/server_socket.h"/>
       </VirtualDirectory>
       <File Name="source/server/serverJson.c"/>
       <File Name="source/server/serverTerminate.c"/>
       <File Name="source/server/serverCnct.c"/>
+      <File Name="source/server/serverSocket.c"/>
     </VirtualDirectory>
     <File Name="source/main.c"/>
   </VirtualDirectory>

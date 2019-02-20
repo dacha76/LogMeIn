@@ -19,6 +19,7 @@
 #include "../../include/aor_server_rc.h"
 
 #include "include/server.h"
+#include "include/server_socket.h"
 
 /////////////////// STATIC PROTOTYPES ////////////////////
 static int _DumpLoad(
@@ -49,6 +50,11 @@ int ServerInit()
     
     // Load the dump.
     returnCode = _DumpLoad();
+    if ( returnCode == cAOR_SERVER_RC_OK)
+    {
+        // Init the socket.
+        returnCode = ServerSocketInit();
+    }
 
     return returnCode;
 }

@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverInit.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverJson.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverTerminate.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverCnct.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverInit.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverJson.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverTerminate.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverCnct.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverSocket.c$(ObjectSuffix) 
 
 
 
@@ -130,6 +130,14 @@ $(IntermediateDirectory)/server_serverCnct.c$(DependSuffix): source/server/serve
 
 $(IntermediateDirectory)/server_serverCnct.c$(PreprocessSuffix): source/server/serverCnct.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_serverCnct.c$(PreprocessSuffix) "source/server/serverCnct.c"
+
+$(IntermediateDirectory)/server_serverSocket.c$(ObjectSuffix): source/server/serverSocket.c $(IntermediateDirectory)/server_serverSocket.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/serverSocket.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_serverSocket.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/server_serverSocket.c$(DependSuffix): source/server/serverSocket.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_serverSocket.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_serverSocket.c$(DependSuffix) -MM "source/server/serverSocket.c"
+
+$(IntermediateDirectory)/server_serverSocket.c$(PreprocessSuffix): source/server/serverSocket.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_serverSocket.c$(PreprocessSuffix) "source/server/serverSocket.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
