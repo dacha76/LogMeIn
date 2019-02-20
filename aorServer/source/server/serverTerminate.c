@@ -21,6 +21,16 @@
 void ServerTerminate()
 {
     AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
+
+    // Remove all client connection.
+    while( pServerCtx->numClientCnct != 0)
+    {
+        tCLIENT_CNCT * pCnct = pServerCtx->pClientCnct;
+        pServerCtx->pClientCnct = pCnct->pNext;
+        
+        free(pCnct);
+        pServerCtx->numClientCnct--;
+    }
    
     // Release the JSON resources.
     if (pServerCtx->pJsonEntry)

@@ -95,16 +95,18 @@
       <File Name="source/server/serverInit.c"/>
       <VirtualDirectory Name="include">
         <File Name="source/server/include/server.h"/>
+        <File Name="source/server/include/server_json.h"/>
+        <File Name="source/server/include/server_cnct.h"/>
       </VirtualDirectory>
       <File Name="source/server/serverJson.c"/>
       <File Name="source/server/serverTerminate.c"/>
+      <File Name="source/server/serverCnct.c"/>
     </VirtualDirectory>
     <File Name="source/main.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <File Name="include/aor_server_rc.h"/>
     <File Name="include/aor_server.h"/>
-    <File Name="include/aor_server_json.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="config">
     <File Name="server.cfg"/>

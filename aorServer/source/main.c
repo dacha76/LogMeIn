@@ -16,6 +16,10 @@ int main(int argc, char **argv)
         FILE * pFile = fopen("Test.txt", "wt");
         AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
         
+        ServerCnctAdd(0x33);
+        ServerCnctAdd(12);
+        ServerCnctAdd(5002);
+               
         // Dump the content of JSON entry into a file.
         if (pFile)
         {
@@ -31,6 +35,10 @@ int main(int argc, char **argv)
 
             fclose(pFile);
         }
+        
+        
+        
+        
      
     }
     

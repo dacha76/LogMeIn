@@ -1,14 +1,14 @@
 /************************************************************\
- * File: aor_server_json.h
+ * File: server_json.h
  * 
  * Description: 
  * 
- *    This file contains the aorServer application's JSON 
- * relasted definitions, structures and function prototypes.
+ * This file contains  JSON relasted definitions, structures 
+ * and function prototypes.
  * 
 \************************************************************/
-#ifndef __AOR_SERVER_JSON_H__
-#define __AOR_SERVER_JSON_H__
+#ifndef __SERVER_JSON_H__
+#define __SERVER_JSON_H__
 
 #include <stdio.h>
 
@@ -42,4 +42,4 @@ void ServerJsonEntryLog(
     tJSON_ENTRY * f_pJsonEntry 
     );
     
-#endif /*__AOR_SERVER_JSON_H__*/
+#endif /*__SERVER_JSON_H__*/

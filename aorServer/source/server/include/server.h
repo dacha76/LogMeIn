@@ -17,7 +17,8 @@
 #include <unistd.h> /* Needed for close() */
 #include <stdio.h>
 
-#include "../../../include/aor_server_json.h"
+#include "server_json.h"
+#include "server_cnct.h"
   
 #define cSERVER_CONFIG_FILE_NAME    "server.cfg"  
 #define cSERVER_DUMP_FILE_NAME    "../sip_dump.txt"
@@ -32,8 +33,13 @@ typedef struct
 
 typedef struct
 {
+    // JSON entries
     int numJsonEntry;
     tJSON_ENTRY * pJsonEntry;
+    
+    // Client connections
+    unsigned numClientCnct;
+    tCLIENT_CNCT * pClientCnct;
     
     // Dump File information.
     FILE * pFileDump;
