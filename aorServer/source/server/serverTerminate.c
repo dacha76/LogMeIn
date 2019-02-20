@@ -6,8 +6,7 @@
  *    Releases all resources allocated by the server.
  * 
 \************************************************************/
-#include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 
 #include "../../include/aor_server_rc.h"
 
@@ -19,13 +18,21 @@
 /************************************************************\
   Function: ServerTerminate
 \************************************************************/
-int ServerTerminate()
+void ServerTerminate()
 {
-   AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
+    AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
    
-   // Release the JSON resources.
-   if (pServerCtx->pJsonEntry)
-       free(pServerCtx->pJsonEntry);
+    // Release the JSON resources.
+    if (pServerCtx->pJsonEntry)
+        free(pServerCtx->pJsonEntry);
+       
+    // Release the file content.
+    if (pServerCtx->pfileContent)
+        free(pServerCtx->pfileContent);
+        
+    // Close any opened file.
+    if (pServerCtx->pFileDump)
+        fclose(pServerCtx->pFileDump);
     
-   return;
+    return;
 }

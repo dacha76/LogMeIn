@@ -12,6 +12,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>  /* Needed for getaddrinfo() and freeaddrinfo() */
 #include <unistd.h> /* Needed for close() */
+#include <stdio.h>
 
 #include "../../../include/aor_server_json.h"
   
@@ -23,6 +24,11 @@ typedef struct
 {
     int numJsonEntry;
     tJSON_ENTRY * pJsonEntry;
+    
+    // Dump File information.
+    FILE * pFileDump;
+    char * pfileContent;
+
         
 } AOR_SERVER_CTX;
 

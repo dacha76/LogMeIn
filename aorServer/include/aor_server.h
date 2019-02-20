@@ -10,6 +10,8 @@
 
 /////////////////////// FUNCTIONS ////////////////////////////
 
+// Server functions.
 int ServerInit();
-
 void ServerTerminate();
+
+
