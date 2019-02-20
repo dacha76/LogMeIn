@@ -7,6 +7,10 @@
  * relasted definitions, structures and function prototypes.
  * 
 \************************************************************/
+#ifndef __AOR_SERVER_JSON_H__
+#define __AOR_SERVER_JSON_H__
+
+#include <stdio.h>
 
 //////////////////////// DEFINITIONS /////////////////////////////
 #define cSERVER_JSON_AOR_STRING           "addressOfRecord"
@@ -29,7 +33,13 @@ int ServerJsonEntryAdd(
     const char * f_pJson,
     tJSON_ENTRY * f_pJsonEntry 
     );
-
-int ServerJsonEntryCreateKey(
-    const char * f_pAddressOfRecord 
+tJSON_ENTRY * ServerJsonEntryLookup(
+    const char * f_pReqAor
     );
+    
+void ServerJsonEntryLog(
+    FILE * f_pFileLog,
+    tJSON_ENTRY * f_pJsonEntry 
+    );
+    
+#endif /*__AOR_SERVER_JSON_H__*/

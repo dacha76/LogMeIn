@@ -41,7 +41,7 @@ AOR_SERVER_CTX g_ServerCtx;
 \************************************************************/
 int ServerInit()
 {
-     int returnCode = cAOR_SERVER_RC_OK;
+    int returnCode = cAOR_SERVER_RC_OK;
     AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
     
     // Init the context.

@@ -8,6 +8,9 @@
  * other than the server.
  * 
 \************************************************************/
+#ifndef __SERVER_H__
+#define __SERVER_H__
+
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netdb.h>  /* Needed for getaddrinfo() and freeaddrinfo() */
@@ -19,6 +22,13 @@
 #define cSERVER_CONFIG_FILE_NAME    "server.cfg"  
 #define cSERVER_DUMP_FILE_NAME    "../sip_dump.txt"
 
+typedef struct
+{
+    unsigned numLookupKeyCollision;
+    unsigned numLookupEntryNotFound;
+    unsigned numLookupRequest;
+    
+} AOR_SERVER_STATS;
 
 typedef struct
 {
@@ -29,7 +39,8 @@ typedef struct
     FILE * pFileDump;
     char * pfileContent;
 
-        
+    AOR_SERVER_STATS Stats;
+    
 } AOR_SERVER_CTX;
 
 extern AOR_SERVER_CTX g_ServerCtx;
@@ -39,3 +50,5 @@ static inline AOR_SERVER_CTX * ServerGetCtx()
 {
     return &g_ServerCtx;
 }
+
+#endif /*__SERVER_H__*/

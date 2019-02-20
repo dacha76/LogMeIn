@@ -1,72 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Session Name="/home/razool/Documents/LogMeIn/LogMeIn.workspace">
-  <int Value="8" Name="m_selectedTab"/>
-  <wxString Value="/home/razool/Documents/LogMeIn/LogMeIn.workspace" Name="m_workspaceName"/>
-  <TabInfoArray Name="TabInfoArray">
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/source/server/include/server.h" Name="FileName"/>
-      <int Value="13" Name="FirstVisibleLine"/>
-      <int Value="0" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/include/aor_server_rc.h" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="17" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/include/aor_server.h" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="14" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/source/main.c" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="18" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/server.cfg" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="0" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/include/aor_server_json.h" Name="FileName"/>
-      <int Value="2" Name="FirstVisibleLine"/>
-      <int Value="14" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/source/server/serverInit.c" Name="FileName"/>
-      <int Value="14" Name="FirstVisibleLine"/>
-      <int Value="129" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/source/server/serverTerminate.c" Name="FileName"/>
-      <int Value="3" Name="FirstVisibleLine"/>
-      <int Value="29" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="/home/razool/Documents/LogMeIn/aorServer/source/server/serverJson.c" Name="FileName"/>
-      <int Value="12" Name="FirstVisibleLine"/>
-      <int Value="25" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-  </TabInfoArray>
+<Session Name="/home/razool/Documents/GitHub/LogMeIn/LogMeIn.workspace">
+  <int Value="0" Name="m_selectedTab"/>
+  <wxString Value="/home/razool/Documents/GitHub/LogMeIn/LogMeIn.workspace" Name="m_workspaceName"/>
+  <TabInfoArray Name="TabInfoArray"/>
   <SerializedObject Name="m_breakpoints">
     <long Value="1" Name="Count"/>
     <SerializedObject Name="Breakpoint0">

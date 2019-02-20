@@ -19,17 +19,15 @@ int main(int argc, char **argv)
         // Dump the content of JSON entry into a file.
         if (pFile)
         {
-            for (int i = 0; i < 1; i++ )
-            {
-                fprintf(pFile, "JsonEntry[%i]\n");
-                fprintf(pFile, "key = 0x%08X\n", pServerCtx->pJsonEntry[i].key);
-                fprintf(pFile, "entryLength = %i\n", pServerCtx->pJsonEntry[i].entryLength);
-                fprintf(pFile, "%s:\"", cSERVER_JSON_AOR_STRING );
-                fwrite(pServerCtx->pJsonEntry[i].pJsonAoR, sizeof(char), cSERVER_JSON_AOR_VALUE_NUM_CHAR, pFile);
-                fprintf(pFile, "\"\n", cSERVER_JSON_AOR_STRING );
-                fwrite(pServerCtx->pJsonEntry[i].pJson, sizeof(char), pServerCtx->pJsonEntry[i].entryLength, pFile);
-                fprintf(pFile, "\n", cSERVER_JSON_AOR_STRING );
-            }
+            char Aor[] = "0142e2fa3543cb32bf000100620002";
+            tJSON_ENTRY * pJsonEntry;
+            
+            // Lookup the entry
+            pJsonEntry = ServerJsonEntryLookup(Aor);
+            if ( pJsonEntry )
+                ServerJsonEntryLog(pFile, pJsonEntry);
+            else
+                pServerCtx->Stats.numLookupEntryNotFound++;
 
             fclose(pFile);
         }

@@ -1,4 +1,3 @@
-JsonEntry[0]
 key = 0x00000731
 entryLength = 655
 addressOfRecord:"0142e2fa3543cb32bf000100620002"

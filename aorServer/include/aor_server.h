@@ -7,6 +7,8 @@
  * structures and function prototypes.
  * 
 \************************************************************/
+#ifndef __AOR_SERVER_H__
+#define __AOR_SERVER_H__
 
 /////////////////////// FUNCTIONS ////////////////////////////
 
@@ -14,4 +16,4 @@
 int ServerInit();
 void ServerTerminate();
 
-
+#endif /*__AOR_SERVER_H__*/

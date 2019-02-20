@@ -7,6 +7,8 @@
  * application.
  * 
 \************************************************************/
+#ifndef __AOR_SERVER_RC_H__
+#define __AOR_SERVER_RC_H__
 
 // Expected return code if no error occurs.
 #define cAOR_SERVER_RC_OK                           0x00000000
@@ -21,3 +23,5 @@
 #define cAOR_SERVER_RC_JSON_ENTRY_NUMBER_INVALID    0x00000007
 #define cAOR_SERVER_RC_DUMP_FILE_MALLOC_ERROR       0x00000008
 #define cAOR_SERVER_RC_DUMP_FILE_SIZE_ERROR         0x00000009
+
+#endif /*__AOR_SERVER_RC_H__*/
