@@ -35,7 +35,7 @@ extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
  *  - Connects to the server at:
  *       ~ IP: 127.0.0.1 (localhost)
  *       ~ PORT: cSERVER_TEST_SOCKET_UDP_PORT (0x5200)
- *  - Waits 10 seconds for the server to terminate the connection
+ *  - Waits 15 seconds for the server to terminate the connection
  *  - Sends an "addressOfRecord" from file "sip.dump"
  *  - Validates that NO answer is returned by the server.
  * 
@@ -54,8 +54,8 @@ int Test1()
     {
         int transferSize;
         
-        // Sleeps to allow the connection to be terminated by the server.
-        sleep(10);
+        // Sleep 15sec to allow the connection to be terminated by the server.
+        sleep(15);
         
         // Send a request to the server.
         transferSize = write(client.socketTcp, g_aorTestCases[client.testCaseIdx].addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR);

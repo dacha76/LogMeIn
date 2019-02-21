@@ -14,7 +14,7 @@
 #include <time.h>
 
 //////////////////////// DEFINITIONS /////////////////////////////
-#define cSERVER_CLIENT_CNCT_TIMEOUT_SEC           7     // 7 seconds timeout.
+#define cSERVER_CLIENT_CNCT_TIMEOUT_SEC           10     // 10 seconds timeout.
 
 
 //////////////////////// TYPEDEF /////////////////////////////

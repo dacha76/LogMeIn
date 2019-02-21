@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     else
         printf("OK\n\n");
     
-    printf("Test 1: 1 Query, sleep=10sec, connection timeout test: ");
+    printf("Test 1: 1 Query, sleep=15sec, connection timeout test: ");
 	returnCode = Test1();
     if (returnCode != cSERVER_TEST_RC_OK)
     {
