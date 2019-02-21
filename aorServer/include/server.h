@@ -20,8 +20,12 @@
 #include "server_json.h"
 #include "server_cnct.h"
   
+//////////////////////// DEFINITIONS /////////////////////////////
+
 #define cSERVER_CONFIG_FILE_NAME    "server.cfg"  
 #define cSERVER_DUMP_FILE_NAME    "../sip_dump.txt"
+
+//////////////////////// TYPEDEF /////////////////////////////
 
 typedef struct
 {
@@ -49,16 +53,28 @@ typedef struct
     FILE * pFileDump;
     char * pfileContent;
 
+    // Server information
+    time_t  timeStart;        // Time, in seconds when this server was started.
+ 
     AOR_SERVER_STATS Stats;
     
 } AOR_SERVER_CTX;
 
 extern AOR_SERVER_CTX g_ServerCtx;
 
-
 static inline AOR_SERVER_CTX * ServerGetCtx()
 {
     return &g_ServerCtx;
 }
+
+
+
+/////////////////////// FUNCTIONS ////////////////////////////
+
+int ServerInit();
+int ServerSocketPoll();
+
+void ServerTerminate();
+
 
 #endif /*__SERVER_H__*/

@@ -1,11 +1,26 @@
+/************************************************************\
+ * File: main.c
+ * 
+ * Description: 
+ * 
+ * Program entry point (main).
+ * performs the following steps:
+ *  - Initialize the server
+ *  - Peform the poll action
+ *     * Poll for new connection
+ *     * Poll for connection requests
+ *     * Check for connection timeout.
+ *  - Cleanup if an error occur. 
+ * 
+\************************************************************/
 #include <stdio.h>
 
-#include "../include/aor_server.h"
-#include "../include/aor_server_rc.h"
+#include "../include/server.h"
+#include "../include/server_rc.h"
 
-#include "server/include/server.h"
-#include "server/include/server_socket.h"
-
+/************************************************************\
+  Function: main
+\************************************************************/
 int main(int argc, char **argv)
 {
     int returnCode = cAOR_SERVER_RC_OK;
@@ -25,6 +40,6 @@ int main(int argc, char **argv)
     // terminate the server.
     ServerTerminate();
 
-    // Quit
+    // We are done.
 	return returnCode;
 }

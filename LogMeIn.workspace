@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="LogMeIn" Database="">
   <Project Name="aorServer" Path="aorServer/aorServer.project" Active="Yes"/>
+  <Project Name="aorServerTest" Path="aorClient/aorClient.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="aorServer" ConfigName="Debug"/>
+      <Project Name="aorServerTest" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
       <Project Name="aorServer" ConfigName="Release"/>
+      <Project Name="aorServerTest" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

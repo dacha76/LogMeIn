@@ -1,25 +1,30 @@
 /************************************************************\
- * File: serverInit.c
+ * File: server.c
  * 
  * Description: 
  * 
- *    This file contains the server initialisation method.
- * It performs the following tasks:
+ *    This file contains the server initialisation and cleanup methods.
+ *  
+ *    serverInit() performs the following tasks:
  *    - Allocates the server context
  *    - Loads the server config
  *    - Initializes the server context
  *    - Processes the dump file
  *    - Open the TCP socket
+ *  
+ *    serverTerminate() releases all allocated resources
+ * 
+ *    This file also contains the declaration of the server 
+ *    context: g_ServerCtx.  
  * 
 \************************************************************/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "../../include/aor_server_rc.h"
-
-#include "include/server.h"
-#include "include/server_socket.h"
+#include "../../include/server.h"
+#include "../../include/server_rc.h"
+#include "../../include/server_socket.h"
 
 /////////////////// STATIC PROTOTYPES ////////////////////
 static int _DumpLoad(
@@ -58,6 +63,43 @@ int ServerInit()
 
     return returnCode;
 }
+
+/************************************************************\
+  Function: ServerTerminate
+\************************************************************/
+void ServerTerminate()
+{
+    AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
+
+    // Remove all client connections.
+    while( pServerCtx->numClientCnct != 0)
+    {
+        tCLIENT_CNCT * pCnct = pServerCtx->pClientCnct;
+        pServerCtx->pClientCnct = pCnct->pNext;
+        
+        close(pCnct->socketTcpCnct);
+        
+        free(pCnct);
+        pServerCtx->numClientCnct--;
+    }
+    
+    // Terminate the server socket.
+    ServerSocketTerminate();
+   
+    // Release the JSON resources.
+    if (pServerCtx->pJsonEntry)
+        free(pServerCtx->pJsonEntry);
+       
+    // Release the file content.
+    if (pServerCtx->pfileContent)
+        free(pServerCtx->pfileContent);
+        
+    // Close any opened file.
+    if (pServerCtx->pFileDump)
+        fclose(pServerCtx->pFileDump);
+}
+
+
 
 
 static int _DumpLoad()

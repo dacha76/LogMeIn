@@ -10,9 +10,8 @@
 #include <string.h>
 #include <time.h>
 
-#include "../../include/aor_server_rc.h"
-
-#include "include/server.h"
+#include "../../include/server.h"
+#include "../../include/server_rc.h"
 
 ///////////////////// DEFINITIONS //////////////////////////
 

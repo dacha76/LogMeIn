@@ -10,10 +10,10 @@
 #include <sys/time.h>
 #include <stdlib.h>
 
-#include "../../include/aor_server_rc.h"
-#include "include/server.h"
-#include "include/server_socket.h"
-#include "include/server_cnct.h"
+
+#include "../../include/server.h"
+#include "../../include/server_rc.h"
+#include "../../include/server_socket.h"
 
 ///////////////////// DEFINITIONS //////////////////////////
 
@@ -121,7 +121,7 @@ int ServerSocketPoll()
         
         // Did we get a new connection request from a client.
         if (FD_ISSET(pServerCtx->socketTcp, &serverFds))   
-        {   
+        {
             int socketCnct;
             socklen_t addrlen;
             struct sockaddr_in address;          
@@ -140,40 +140,53 @@ int ServerSocketPoll()
                 else
                     returnCode = cAOR_SERVER_RC_CNCT_ADD_ERROR;
             }
-            
-            // Check if we have activity on the client connection.
-            pCnct = pServerCtx->pClientCnct;
-            
-            for (int i = 0; i < pServerCtx->numClientCnct; i++)   
+        }
+        
+        // Check if we have activity on the client connection.
+        pCnct = pServerCtx->pClientCnct;
+        
+        for (int i = 0; i < pServerCtx->numClientCnct; i++)   
+        {   
+            if (FD_ISSET( pCnct->socketTcpCnct , &serverFds))   
             {   
-                if (FD_ISSET( pCnct->socketTcpCnct , &serverFds))   
-                {   
-                    char buffer[1024] = { 0 };
-                    int numBytesRead = 0;
-                    
-                    numBytesRead = read(pCnct->socketTcpCnct, buffer, sizeof(buffer));
-                    if ( numBytesRead < cSERVER_JSON_AOR_VALUE_NUM_CHAR )
+                char buffer[1024] = { 0 };
+                int numBytesRead = 0;
+                
+                numBytesRead = read(pCnct->socketTcpCnct, buffer, sizeof(buffer));
+                if ( numBytesRead < cSERVER_JSON_AOR_VALUE_NUM_CHAR )
+                {
+                    // Tests have shown that receiving 0 bytes correspond to the 
+                    // client closing its connection.
+                    if (numBytesRead == 0)
+                    {
+                        // Close connection.
+                        returnCode = ServerCnctRemove(pCnct);
+                    }
+                    else
                     {
                         // This is bad, we did not get enough data for a valid AOR.
                         returnCode = cAOR_SERVER_RC_SOCKET_ERROR_READ;
                     }
-                    else
+                }                
+                else
+                {
+                    tJSON_ENTRY * pJsonEntry;
+                    
+                    printf("Retrieved pClientReq of length %i:\n", numBytesRead);
+                    printf("%s", buffer);
+                    
+                    // Process the request.
+                    pJsonEntry = ServerJsonEntryLookup(buffer);
+                    if (pJsonEntry)
                     {
-                        tJSON_ENTRY * pJsonEntry;
-                        
-                        printf("Retrieved pClientReq of length %i:\n", numBytesRead);
-                        printf("%s", buffer);
-                        
-                        // Process the request.
-                        pJsonEntry = ServerJsonEntryLookup(buffer);
-                        if (pJsonEntry)
-                        {
-                            // We found a match.
-                            // Send back the JSON object associated to the received address of record.
-                            send(pCnct->socketTcpCnct, pJsonEntry->pJson, pJsonEntry->entryLength, 0 );   
-                        }
-                    } 
-                }   
+                        // We found a match.
+                        // Send back the JSON object associated to the received address of record.
+                        send(pCnct->socketTcpCnct, pJsonEntry->pJson, pJsonEntry->entryLength, 0 );   
+                    }
+                } 
+                
+                if (returnCode != cAOR_SERVER_RC_OK)
+                    break;
             }
         }
     }

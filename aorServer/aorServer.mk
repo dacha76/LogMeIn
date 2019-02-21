@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverInit.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverJson.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverTerminate.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverCnct.c$(ObjectSuffix) $(IntermediateDirectory)/server_serverSocket.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_cnct.c$(ObjectSuffix) $(IntermediateDirectory)/server_server.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_Json.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_socket.c$(ObjectSuffix) 
 
 
 
@@ -99,45 +99,37 @@ $(IntermediateDirectory)/source_main.c$(DependSuffix): source/main.c
 $(IntermediateDirectory)/source_main.c$(PreprocessSuffix): source/main.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/source_main.c$(PreprocessSuffix) "source/main.c"
 
-$(IntermediateDirectory)/server_serverInit.c$(ObjectSuffix): source/server/serverInit.c $(IntermediateDirectory)/server_serverInit.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/serverInit.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_serverInit.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/server_serverInit.c$(DependSuffix): source/server/serverInit.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_serverInit.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_serverInit.c$(DependSuffix) -MM "source/server/serverInit.c"
+$(IntermediateDirectory)/server_server_cnct.c$(ObjectSuffix): source/server/server_cnct.c $(IntermediateDirectory)/server_server_cnct.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/server_cnct.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_server_cnct.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/server_server_cnct.c$(DependSuffix): source/server/server_cnct.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_server_cnct.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_server_cnct.c$(DependSuffix) -MM "source/server/server_cnct.c"
 
-$(IntermediateDirectory)/server_serverInit.c$(PreprocessSuffix): source/server/serverInit.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_serverInit.c$(PreprocessSuffix) "source/server/serverInit.c"
+$(IntermediateDirectory)/server_server_cnct.c$(PreprocessSuffix): source/server/server_cnct.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_server_cnct.c$(PreprocessSuffix) "source/server/server_cnct.c"
 
-$(IntermediateDirectory)/server_serverJson.c$(ObjectSuffix): source/server/serverJson.c $(IntermediateDirectory)/server_serverJson.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/serverJson.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_serverJson.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/server_serverJson.c$(DependSuffix): source/server/serverJson.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_serverJson.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_serverJson.c$(DependSuffix) -MM "source/server/serverJson.c"
+$(IntermediateDirectory)/server_server.c$(ObjectSuffix): source/server/server.c $(IntermediateDirectory)/server_server.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/server.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_server.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/server_server.c$(DependSuffix): source/server/server.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_server.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_server.c$(DependSuffix) -MM "source/server/server.c"
 
-$(IntermediateDirectory)/server_serverJson.c$(PreprocessSuffix): source/server/serverJson.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_serverJson.c$(PreprocessSuffix) "source/server/serverJson.c"
+$(IntermediateDirectory)/server_server.c$(PreprocessSuffix): source/server/server.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_server.c$(PreprocessSuffix) "source/server/server.c"
 
-$(IntermediateDirectory)/server_serverTerminate.c$(ObjectSuffix): source/server/serverTerminate.c $(IntermediateDirectory)/server_serverTerminate.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/serverTerminate.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_serverTerminate.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/server_serverTerminate.c$(DependSuffix): source/server/serverTerminate.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_serverTerminate.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_serverTerminate.c$(DependSuffix) -MM "source/server/serverTerminate.c"
+$(IntermediateDirectory)/server_server_Json.c$(ObjectSuffix): source/server/server_Json.c $(IntermediateDirectory)/server_server_Json.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/server_Json.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_server_Json.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/server_server_Json.c$(DependSuffix): source/server/server_Json.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_server_Json.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_server_Json.c$(DependSuffix) -MM "source/server/server_Json.c"
 
-$(IntermediateDirectory)/server_serverTerminate.c$(PreprocessSuffix): source/server/serverTerminate.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_serverTerminate.c$(PreprocessSuffix) "source/server/serverTerminate.c"
+$(IntermediateDirectory)/server_server_Json.c$(PreprocessSuffix): source/server/server_Json.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_server_Json.c$(PreprocessSuffix) "source/server/server_Json.c"
 
-$(IntermediateDirectory)/server_serverCnct.c$(ObjectSuffix): source/server/serverCnct.c $(IntermediateDirectory)/server_serverCnct.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/serverCnct.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_serverCnct.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/server_serverCnct.c$(DependSuffix): source/server/serverCnct.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_serverCnct.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_serverCnct.c$(DependSuffix) -MM "source/server/serverCnct.c"
+$(IntermediateDirectory)/server_server_socket.c$(ObjectSuffix): source/server/server_socket.c $(IntermediateDirectory)/server_server_socket.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/server_socket.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_server_socket.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/server_server_socket.c$(DependSuffix): source/server/server_socket.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_server_socket.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_server_socket.c$(DependSuffix) -MM "source/server/server_socket.c"
 
-$(IntermediateDirectory)/server_serverCnct.c$(PreprocessSuffix): source/server/serverCnct.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_serverCnct.c$(PreprocessSuffix) "source/server/serverCnct.c"
-
-$(IntermediateDirectory)/server_serverSocket.c$(ObjectSuffix): source/server/serverSocket.c $(IntermediateDirectory)/server_serverSocket.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/serverSocket.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_serverSocket.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/server_serverSocket.c$(DependSuffix): source/server/serverSocket.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_serverSocket.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_serverSocket.c$(DependSuffix) -MM "source/server/serverSocket.c"
-
-$(IntermediateDirectory)/server_serverSocket.c$(PreprocessSuffix): source/server/serverSocket.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_serverSocket.c$(PreprocessSuffix) "source/server/serverSocket.c"
+$(IntermediateDirectory)/server_server_socket.c$(PreprocessSuffix): source/server/server_socket.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_server_socket.c$(PreprocessSuffix) "source/server/server_socket.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

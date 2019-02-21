@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="aorServer" InternalType="Console">
+<CodeLite_Project Name="aorServerTest" InternalType="Console">
   <Description/>
   <Dependencies/>
   <Settings Type="Executable">
@@ -91,19 +91,18 @@
     </Configuration>
   </Settings>
   <VirtualDirectory Name="source">
-    <VirtualDirectory Name="server">
-      <File Name="source/server/server_cnct.c"/>
-      <File Name="source/server/server.c"/>
-      <File Name="source/server/server_Json.c"/>
-      <File Name="source/server/server_socket.c"/>
+    <VirtualDirectory Name="tests">
+      <File Name="source/tests/test_0.c"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="client">
+      <File Name="source/client/client.c"/>
+      <File Name="source/client/client_socket.c"/>
     </VirtualDirectory>
     <File Name="source/main.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
-    <File Name="include/server_rc.h"/>
-    <File Name="include/server.h"/>
-    <File Name="include/server_cnct.h"/>
-    <File Name="include/server_json.h"/>
-    <File Name="include/server_socket.h"/>
+    <File Name="include/server_test.h"/>
+    <File Name="include/server_test_rc.h"/>
+    <File Name="include/server_test_client.h"/>
   </VirtualDirectory>
 </CodeLite_Project>
