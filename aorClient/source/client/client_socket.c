@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "../../include/server_test.h"
 #include "../../include/server_test_rc.h"
@@ -34,6 +35,8 @@ int ClientSocketInit(
     {
         struct sockaddr_in socketAddr; 
       
+        printf("Mew Client id=%d\n", f_pClient->socketTcp);
+ 
         // Bind the socket.
         socketAddr.sin_family = AF_INET; 
         socketAddr.sin_port = htons( cSERVER_TEST_SOCKET_UDP_PORT ); 
@@ -48,4 +51,18 @@ int ClientSocketInit(
         returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR;
           
     return returnCode;
+}
+
+
+/************************************************************\
+  Function: ClientSocketTerminate
+\************************************************************/
+void ClientSocketTerminate(
+    tTEST_CLIENT * f_pClient
+    )
+{
+    printf("Removing Client id=%d\n", f_pClient->socketTcp);
+   
+    if (f_pClient->socketTcp)
+        close(f_pClient->socketTcp);
 }

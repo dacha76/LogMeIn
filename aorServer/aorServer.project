@@ -96,6 +96,7 @@
       <File Name="source/server/server.c"/>
       <File Name="source/server/server_Json.c"/>
       <File Name="source/server/server_socket.c"/>
+      <File Name="source/server/server_log.c"/>
     </VirtualDirectory>
     <File Name="source/main.c"/>
   </VirtualDirectory>
@@ -105,5 +106,6 @@
     <File Name="include/server_cnct.h"/>
     <File Name="include/server_json.h"/>
     <File Name="include/server_socket.h"/>
+    <File Name="include/server_log.h"/>
   </VirtualDirectory>
 </CodeLite_Project>

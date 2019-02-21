@@ -14,13 +14,15 @@
 #include <time.h>
 
 //////////////////////// DEFINITIONS /////////////////////////////
-#define cSERVER_CLIENT_CNCT_TIMEOUT_MS           10000     // 10 seconds timeout.
+#define cSERVER_CLIENT_CNCT_TIMEOUT_SEC           7     // 7 seconds timeout.
 
 
 //////////////////////// TYPEDEF /////////////////////////////
 typedef struct {
     
     void * pNext;       // Next pointer used to linked entries.
+ 
+    int removeFlag;     // Flag used to indicate that this entry must be removed.
  
     // Client's connection socket.
     int socketTcpCnct;
@@ -35,9 +37,9 @@ typedef struct {
 
 /////////////////////// FUNCTIONS ////////////////////////////
 
-tCLIENT_CNCT * ServerCnctAdd();
+tCLIENT_CNCT * ServerCnctAlloc();
 
-int ServerCnctRemove(
+int ServerCnctFree(
     tCLIENT_CNCT * f_pCnct
     );
 #endif /*__SERVER_CLIENT_CNCT_H__*/

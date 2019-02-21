@@ -93,6 +93,7 @@
   <VirtualDirectory Name="source">
     <VirtualDirectory Name="tests">
       <File Name="source/tests/test_0.c"/>
+      <File Name="source/tests/test_1.c"/>
     </VirtualDirectory>
     <VirtualDirectory Name="client">
       <File Name="source/client/client.c"/>

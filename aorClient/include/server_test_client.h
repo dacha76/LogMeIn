@@ -18,16 +18,25 @@ typedef struct {
     
     // Client's socket.
     int socketTcp;
+    
+    char addressOfRecord[128];
         
 } tTEST_CLIENT;
 
 /////////////////////// FUNCTIONS ////////////////////////////
 
 int ClientInit(
-    tTEST_CLIENT * f_pClient
+    tTEST_CLIENT * f_pClient,
+    char * f_pAddressOfRecord
     );
 int ClientSocketInit(
     tTEST_CLIENT * f_pClient
     );
     
+void ClientTerminate(
+    tTEST_CLIENT * f_pClient
+    );    
+void ClientSocketTerminate(
+    tTEST_CLIENT * f_pClient
+    );
 #endif /*__SERVER_TEST_CLIENT_H__*/

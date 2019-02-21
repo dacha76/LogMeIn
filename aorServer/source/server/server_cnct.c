@@ -1,5 +1,5 @@
 /************************************************************\
- * File: serverCnct.c
+ * File: server_cnct.c
  * 
  * Description: 
  * 
@@ -20,9 +20,9 @@
 /////////////////////// FUNCTIONS //////////////////////////
 
 /************************************************************\
-  Function: ServerCnctAdd
+  Function: ServerCnctAlloc
 \************************************************************/
-tCLIENT_CNCT * ServerCnctAdd()
+tCLIENT_CNCT * ServerCnctAlloc()
 {
     AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
     tCLIENT_CNCT * pCnct = NULL;
@@ -50,9 +50,9 @@ tCLIENT_CNCT * ServerCnctAdd()
 }
 
 /************************************************************\
-  Function: ServerCnctRemove
+  Function: ServerCnctFree
 \************************************************************/
-int ServerCnctRemove(
+int ServerCnctFree(
     tCLIENT_CNCT * f_pCnct
     )
 {

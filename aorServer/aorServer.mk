@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=Dany Chateauneuf
-Date                   :=20/02/19
+Date                   :=21/02/19
 CodeLitePath           :="/home/razool/.codelite"
 LinkerName             :=/usr/bin/g++
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_cnct.c$(ObjectSuffix) $(IntermediateDirectory)/server_server.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_Json.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_socket.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_cnct.c$(ObjectSuffix) $(IntermediateDirectory)/server_server.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_Json.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_socket.c$(ObjectSuffix) $(IntermediateDirectory)/server_server_log.c$(ObjectSuffix) 
 
 
 
@@ -130,6 +130,14 @@ $(IntermediateDirectory)/server_server_socket.c$(DependSuffix): source/server/se
 
 $(IntermediateDirectory)/server_server_socket.c$(PreprocessSuffix): source/server/server_socket.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_server_socket.c$(PreprocessSuffix) "source/server/server_socket.c"
+
+$(IntermediateDirectory)/server_server_log.c$(ObjectSuffix): source/server/server_log.c $(IntermediateDirectory)/server_server_log.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServer/source/server/server_log.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/server_server_log.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/server_server_log.c$(DependSuffix): source/server/server_log.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/server_server_log.c$(ObjectSuffix) -MF$(IntermediateDirectory)/server_server_log.c$(DependSuffix) -MM "source/server/server_log.c"
+
+$(IntermediateDirectory)/server_server_log.c$(PreprocessSuffix): source/server/server_log.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/server_server_log.c$(PreprocessSuffix) "source/server/server_log.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

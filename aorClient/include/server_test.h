@@ -10,8 +10,12 @@
 #ifndef __AOR_SERVER_TEST_H__
 #define __AOR_SERVER_TEST_H__
 
+
+#define cSERVER_TEST_AOR_VALUE_NUM_CHAR   30
+
 /////////////////////// FUNCTIONS ////////////////////////////
 
 int Test0();
+int Test1();
 
 #endif /*__AOR_SERVER_TEST_H__*/

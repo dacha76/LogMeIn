@@ -14,7 +14,7 @@
 
 //////////////////////// DEFINITIONS /////////////////////////////
 #define cSERVER_SOCKET_UDP_PORT           0x5200
-#define cSERVER_SOCKET_MAX_PENDING_CNCT   5
+#define cSERVER_SOCKET_MAX_PENDING_CNCT   3
 
 /////////////////// FUNCTIONS PROTOTYPES /////////////////////////
 

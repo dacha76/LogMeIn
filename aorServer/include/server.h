@@ -22,8 +22,12 @@
   
 //////////////////////// DEFINITIONS /////////////////////////////
 
+
 #define cSERVER_CONFIG_FILE_NAME    "server.cfg"  
 #define cSERVER_DUMP_FILE_NAME    "../sip_dump.txt"
+
+// Version
+#define cSERVER_VERSION             "0.0.1-ALPHA"
 
 //////////////////////// TYPEDEF /////////////////////////////
 
@@ -54,6 +58,7 @@ typedef struct
     char * pfileContent;
 
     // Server information
+    FILE * pFileLog;
     time_t  timeStart;        // Time, in seconds when this server was started.
  
     AOR_SERVER_STATS Stats;
@@ -76,5 +81,8 @@ int ServerSocketPoll();
 
 void ServerTerminate();
 
-
+void ServerLog(
+    char * f_pLogString 
+    );
+    
 #endif /*__SERVER_H__*/

@@ -24,6 +24,7 @@
 
 #include "../../include/server.h"
 #include "../../include/server_rc.h"
+#include "../../include/server_log.h"
 #include "../../include/server_socket.h"
 
 /////////////////// STATIC PROTOTYPES ////////////////////
@@ -53,14 +54,27 @@ int ServerInit()
     // Init the context.
     memset(pServerCtx, 0, sizeof(AOR_SERVER_CTX));
     
+    // Set the server start time used by the logs.
+    time(&pServerCtx->timeStart);
+  
     // Load the dump.
-    returnCode = _DumpLoad();
-    if ( returnCode == cAOR_SERVER_RC_OK)
+    returnCode = ServerLogInit();
+    if (returnCode == cAOR_SERVER_RC_OK)
     {
-        // Init the socket.
-        returnCode = ServerSocketInit();
+        returnCode = _DumpLoad();
+        if (returnCode == cAOR_SERVER_RC_OK)
+        {
+            // Init the socket.
+            returnCode = ServerSocketInit();
+            if (returnCode != cAOR_SERVER_RC_OK)
+                ServerLogError("ServerSocketInit", returnCode);
+        }
+        else
+            ServerLogError("_DumpLoad", returnCode);
     }
-
+    else
+        ServerLogError("ServerLogInit", returnCode);
+    
     return returnCode;
 }
 

@@ -1,5 +1,5 @@
 /************************************************************\
- * File: serverJson.c
+ * File: server_json.c
  * 
  * Description: 
  * 
@@ -125,25 +125,6 @@ tJSON_ENTRY * ServerJsonEntryLookup(
     }
     
     return pJsonEntry;
-}
-
-
-/************************************************************\
-  Function: ServerJsonEntryLog
-\************************************************************/
-void ServerJsonEntryLog(
-    FILE * f_pFileLog,
-    tJSON_ENTRY * f_pJsonEntry 
-    )
-{
-    // Fill the print buffer.
-    fprintf(f_pFileLog, "key = 0x%08X\n", f_pJsonEntry->key);
-    fprintf(f_pFileLog, "entryLength = %i\n", f_pJsonEntry->entryLength);
-    fprintf(f_pFileLog, "%s:\"", cSERVER_JSON_AOR_STRING );
-    fwrite(f_pJsonEntry->pJsonAoR, sizeof(char), cSERVER_JSON_AOR_VALUE_NUM_CHAR, f_pFileLog);
-    fprintf(f_pFileLog, "\"\n");
-    fwrite(f_pJsonEntry->pJson, sizeof(char), f_pJsonEntry->entryLength, f_pFileLog);
-    fprintf(f_pFileLog, "\n");
 }
 
 

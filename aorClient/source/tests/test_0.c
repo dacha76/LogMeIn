@@ -25,25 +25,27 @@
 /////////////////////// FUNCTIONS //////////////////////////
 
 /************************************************************\
-  Function: ServerCnctAdd
+  Function: Test0
 \************************************************************/
-int Test0()
+int Test0( 
+    int f_sleepInSeconds 
+    )
 {
     int returnCode = cAOR_SERVER_TEST_RC_OK;
     tTEST_CLIENT client;
-    char addressOfRecord[] = "0158b11f4ffa05636b000100620002";
+    char * pAddressOfRecord = "0158b11f4ffa05636b000100620002";
     
     // Create our first client and send a string to the server.
     memset(&client, 0, sizeof(client));
     
-    returnCode = ClientInit(&client);
+    returnCode = ClientInit(&client, pAddressOfRecord );
     if (returnCode == cAOR_SERVER_TEST_RC_OK)
     {
         int transferSize;
         
         // Send a request to the server.
-        transferSize = write(client.socketTcp, addressOfRecord, sizeof(addressOfRecord));
-        if (transferSize == sizeof(addressOfRecord))
+        transferSize = write(client.socketTcp, client.addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR);
+        if (transferSize == cSERVER_TEST_AOR_VALUE_NUM_CHAR)
         {
             char buffer[1024];
             
@@ -67,6 +69,15 @@ int Test0()
         }
         else
             returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_WRITE;
+    }
+
+    // Sleep before terminating the client.
+    sleep(f_sleepInSeconds);
+    
+    // Close our client.
+    if (returnCode == cAOR_SERVER_TEST_RC_OK)
+    {
+        ClientTerminate(&client);
     }
     
     return returnCode;

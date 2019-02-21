@@ -116,7 +116,6 @@ int ServerSocketPoll()
     selectResult = select( maxSocketDescriptor + 1 , &serverFds , NULL , NULL , &timeout);
     if (selectResult > 0)
     {
-       
         // We got activity.
         
         // Did we get a new connection request from a client.
@@ -130,9 +129,19 @@ int ServerSocketPoll()
             if (socketCnct)
             {
                 // Add a new connection for that socket.
-                pCnct = ServerCnctAdd();
+                pCnct = ServerCnctAlloc();
                 if (pCnct)
                 {
+                    char buffer[256];
+                    
+                    sprintf(buffer, "New Connection id=%d from ip=%s, port=%d", 
+                        socketCnct,
+                        inet_ntoa(address.sin_addr),
+                        ntohs (address.sin_port)
+                        );
+                    // Log the new connection.
+                    ServerLog(buffer);
+                    
                     // Configure the connection.
                     pCnct->clientAddress = address;
                     pCnct->socketTcpCnct = socketCnct;
@@ -144,7 +153,6 @@ int ServerSocketPoll()
         
         // Check if we have activity on the client connection.
         pCnct = pServerCtx->pClientCnct;
-        
         for (int i = 0; i < pServerCtx->numClientCnct; i++)   
         {   
             if (FD_ISSET( pCnct->socketTcpCnct , &serverFds))   
@@ -159,8 +167,17 @@ int ServerSocketPoll()
                     // client closing its connection.
                     if (numBytesRead == 0)
                     {
-                        // Close connection.
-                        returnCode = ServerCnctRemove(pCnct);
+                        char buffer[256];
+                
+                        // Connection in timeout... remove from list.
+                        sprintf(buffer, "Connection id=%d disconnected from server", 
+                            pCnct->socketTcpCnct
+                            );
+                        // Log the new connection.
+                        ServerLog(buffer);                        
+                
+                        // Flag the entry as an entry to remove.
+                        pCnct->removeFlag = 1;
                     }
                     else
                     {
@@ -171,9 +188,16 @@ int ServerSocketPoll()
                 else
                 {
                     tJSON_ENTRY * pJsonEntry;
+                    char logBuffer[256];
                     
-                    printf("Retrieved pClientReq of length %i:\n", numBytesRead);
-                    printf("%s", buffer);
+                    time(&pCnct->timeLastRequest);
+            
+                    // Connection in timeout... remove from list.
+                    sprintf(logBuffer, "Request Rcvd from id=%d", 
+                        pCnct->socketTcpCnct
+                        );
+                    // Log the new connection.
+                    ServerLog(logBuffer);                        
                     
                     // Process the request.
                     pJsonEntry = ServerJsonEntryLookup(buffer);
@@ -183,12 +207,27 @@ int ServerSocketPoll()
                         // Send back the JSON object associated to the received address of record.
                         send(pCnct->socketTcpCnct, pJsonEntry->pJson, pJsonEntry->entryLength, 0 );   
                     }
+                    else
+                    {
+                        // Connection in timeout... remove from list.
+                        sprintf(logBuffer, "ERROR: Lookup failed for connection id=%d", 
+                            pCnct->socketTcpCnct
+                            );
+                        // Log the new connection.
+                        ServerLog(logBuffer);                        
+                      
+                    }
                 } 
                 
                 if (returnCode != cAOR_SERVER_RC_OK)
                     break;
             }
-        }
+            
+            // Move to the next entry.
+            pCnct = pCnct->pNext;
+        }                
+        
+
     }
     else if (selectResult < 0)
     {
@@ -215,10 +254,26 @@ int ServerSocketPoll()
             pNext = pCnct->pNext;
             
             // Check for timeout.
-            if ((timeCurrent - pCnct->timeLastRequest) > cSERVER_CLIENT_CNCT_TIMEOUT_MS)
+            if ((timeCurrent - pCnct->timeLastRequest) > cSERVER_CLIENT_CNCT_TIMEOUT_SEC) 
             {
+                char buffer[256];
+                
                 // Connection in timeout... remove from list.
-                returnCode = ServerCnctRemove(pCnct);
+                sprintf(buffer, "Connection timeout for id=%d", 
+                    pCnct->socketTcpCnct
+                    );
+                    
+                // Log the new connection.
+                ServerLog(buffer);
+                
+                // Flag the entry as to be removed.
+                pCnct->removeFlag = 1;
+            }
+            
+            // Remove the entry.
+            if (pCnct->removeFlag)
+            {
+                returnCode = ServerCnctFree(pCnct);
                 if (returnCode != cAOR_SERVER_RC_OK)
                     break;
             }
