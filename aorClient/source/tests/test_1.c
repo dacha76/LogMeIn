@@ -21,8 +21,8 @@
 
 ///////////////////// DEFINITIONS //////////////////////////
 
-#define cTEST1_NUM_CLIENTS              1
-#define cTEST1_NUM_REQUESTS             16
+#define cTEST1_NUM_CLIENTS              8
+#define cTEST1_NUM_REQUESTS             1024
 
 /////////////////// STATIC PROTOTYPES //**//////////////////
 
@@ -68,9 +68,8 @@ int Test1()
         tTEST_CLIENT * pClient;
         
         // Select a client
-//        clientIdx = rand() % cTEST1_NUM_CLIENTS;
-//        pClient = &clients[clientIdx];
-        pClient = &clients[0];
+        clientIdx = rand() % cTEST1_NUM_CLIENTS;
+        pClient = &clients[clientIdx];
         printf("Client id=%d sending request\n", pClient->socketTcp);
         // Send a request to the server.
         transferSize = send(pClient->socketTcp, pClient->addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR, 0);
@@ -81,7 +80,7 @@ int Test1()
             memset(buffer, 0, sizeof(buffer));
             
             // Wait for an answer.
-            transferSize = read(pClient->socketTcp, buffer, sizeof(buffer) );
+            transferSize = recv(pClient->socketTcp, buffer, sizeof(buffer), 0 );
             if (transferSize > 0)
             {
                 FILE * pLogFile;
@@ -96,7 +95,7 @@ int Test1()
                 }
             }
             
-            sleep(1);
+            usleep(100000);
         }
         else
         {

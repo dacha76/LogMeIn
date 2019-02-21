@@ -85,7 +85,8 @@ int ServerSocketPoll()
 {
     int returnCode = cAOR_SERVER_RC_OK;
     AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
-    tCLIENT_CNCT * pCnct = pServerCtx->pClientCnct;
+    tCLIENT_CNCT * pCnct = NULL;
+//    tCLIENT_CNCT ClientCnct[2];
     struct timeval timeout;
     int selectResult;
     
@@ -101,12 +102,15 @@ int ServerSocketPoll()
     maxSocketDescriptor = pServerCtx->socketTcp;   
     
     // add any connection we have active.
-    for(int i=0; i<pServerCtx->numClientCnct; i++)
+    pCnct = pServerCtx->pClientCnct;
+    while (pCnct != NULL)
     {
         FD_SET(pCnct->socketTcpCnct, &serverFds);
         
         if(pCnct->socketTcpCnct > maxSocketDescriptor)
             maxSocketDescriptor = pCnct->socketTcpCnct;
+            
+        pCnct = pCnct->pNext;
     }
     
     // Now, wait for activity on one of the sockets , timeout is NULL so we are blocking.  
@@ -126,7 +130,7 @@ int ServerSocketPoll()
             struct sockaddr_in address;          
             
             socketCnct = accept(pServerCtx->socketTcp, (struct sockaddr *)&address, &addrlen);
-            if (socketCnct)
+            if (socketCnct >= 0)
             {
                 // Add a new connection for that socket.
                 pCnct = ServerCnctAlloc();
@@ -149,84 +153,88 @@ int ServerSocketPoll()
                 else
                     returnCode = cAOR_SERVER_RC_CNCT_ADD_ERROR;
             }
+            else
+                returnCode = cAOR_SERVER_RC_CNCT_ADD_ERROR;
         }
         
-        // Check if we have activity on the client connection.
-        pCnct = pServerCtx->pClientCnct;
-        for (int i = 0; i < pServerCtx->numClientCnct; i++)   
-        {   
-            if (FD_ISSET( pCnct->socketTcpCnct , &serverFds))   
+        // If all went well, continue with the connection.
+        if ( returnCode == cAOR_SERVER_RC_OK)
+        {
+            pCnct = pServerCtx->pClientCnct;
+            while ( pCnct != NULL )   
             {   
-                char buffer[1024] = { 0 };
-                int numBytesRead = 0;
-                
-                numBytesRead = read(pCnct->socketTcpCnct, buffer, sizeof(buffer));
-                if ( numBytesRead < cSERVER_JSON_AOR_VALUE_NUM_CHAR )
-                {
-                    // Tests have shown that receiving 0 bytes correspond to the 
-                    // client closing its connection.
-                    if (numBytesRead == 0)
+                if (FD_ISSET( pCnct->socketTcpCnct , &serverFds))   
+                {   
+                    char buffer[1024] = { 0 };
+                    int numBytesRead = 0;
+                    
+                    numBytesRead = recv(pCnct->socketTcpCnct, buffer, sizeof(buffer), 0);
+                    if ( numBytesRead < cSERVER_JSON_AOR_VALUE_NUM_CHAR )
                     {
-                        char buffer[256];
-                
-                        // Connection in timeout... remove from list.
-                        sprintf(buffer, "Connection id=%d disconnected from server", 
-                            pCnct->socketTcpCnct
-                            );
-                        // Log the new connection.
-                        ServerLog(buffer);                        
-                
-                        // Flag the entry as an entry to remove.
-                        pCnct->removeFlag = 1;
-                    }
+                        // Tests have shown that receiving 0 bytes correspond to the 
+                        // client closing its connection.
+                        if (numBytesRead == 0)
+                        {
+                            char buffer[256];
+                    
+                            // Connection in timeout... remove from list.
+                            sprintf(buffer, "Connection id=%d disconnected from server", 
+                                pCnct->socketTcpCnct
+                                );
+                            // Log the new connection.
+                            ServerLog(buffer);                        
+                    
+                            // Flag the entry as an entry to remove.
+                            pCnct->removeFlag = 1;
+                        }
+                        else
+                        {
+                            // This is bad, we did not get enough data for a valid AOR.
+                            returnCode = cAOR_SERVER_RC_SOCKET_ERROR_READ;
+                        }
+                    }                
                     else
                     {
-                        // This is bad, we did not get enough data for a valid AOR.
-                        returnCode = cAOR_SERVER_RC_SOCKET_ERROR_READ;
-                    }
-                }                
-                else
-                {
-                    tJSON_ENTRY * pJsonEntry;
-                    char logBuffer[256];
-                    
-                    time(&pCnct->timeLastRequest);
-            
-                    // Connection in timeout... remove from list.
-                    sprintf(logBuffer, "Request Rcvd from id=%d", 
-                        pCnct->socketTcpCnct
-                        );
-                    // Log the new connection.
-                    ServerLog(logBuffer);                        
-                    
-                    // Process the request.
-                    pJsonEntry = ServerJsonEntryLookup(buffer);
-                    if (pJsonEntry)
-                    {
-                        // We found a match.
-                        // Send back the JSON object associated to the received address of record.
-                        send(pCnct->socketTcpCnct, pJsonEntry->pJson, pJsonEntry->entryLength, 0 );   
-                    }
-                    else
-                    {
+                        tJSON_ENTRY * pJsonEntry;
+                        char logBuffer[256];
+                        
+                        time(&pCnct->timeLastRequest);
+                
                         // Connection in timeout... remove from list.
-                        sprintf(logBuffer, "ERROR: Lookup failed for connection id=%d", 
+                        sprintf(logBuffer, "Request Rcvd from id=%d", 
                             pCnct->socketTcpCnct
                             );
                         // Log the new connection.
                         ServerLog(logBuffer);                        
-                      
-                    }
-                } 
+                        
+                        // Process the request.
+                        pJsonEntry = ServerJsonEntryLookup(buffer);
+                        if (pJsonEntry)
+                        {
+                            // We found a match.
+                            // Send back the JSON object associated to the received address of record.
+                            send(pCnct->socketTcpCnct, pJsonEntry->pJson, pJsonEntry->entryLength, 0 );   
+                        }
+                        else
+                        {
+                            // Connection in timeout... remove from list.
+                            sprintf(logBuffer, "ERROR: Lookup failed for connection id=%d", 
+                                pCnct->socketTcpCnct
+                                );
+                            // Log the new connection.
+                            ServerLog(logBuffer);                        
+                          
+                        }
+                    } 
+                    
+                    if (returnCode != cAOR_SERVER_RC_OK)
+                        break;
+                }
                 
-                if (returnCode != cAOR_SERVER_RC_OK)
-                    break;
-            }
-            
-            // Move to the next entry.
-            pCnct = pCnct->pNext;
-        }                
-        
+                // Move to the next entry.
+                pCnct = pCnct->pNext;
+            }                
+        }
 
     }
     else if (selectResult < 0)
@@ -238,7 +246,6 @@ int ServerSocketPoll()
     if (returnCode == cAOR_SERVER_RC_OK)
     {
         time_t  timeCurrent;
-        int numClientCnctOriginal; // Number of client may change in the context.
         tCLIENT_CNCT * pNext;
         
         // Look for connection timeout 
@@ -246,9 +253,7 @@ int ServerSocketPoll()
         
         // Loop through all active connections.
         pCnct = pServerCtx->pClientCnct;
-        numClientCnctOriginal = pServerCtx->numClientCnct;
-        
-        for ( int i=0; i<numClientCnctOriginal; i++)
+        while (pCnct != NULL)
         {
             // Save right away the next entry in case we release the current entry.
             pNext = pCnct->pNext;
