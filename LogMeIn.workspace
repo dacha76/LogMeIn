@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="LogMeIn" Database="">
-  <Project Name="aorServer" Path="aorServer/aorServer.project" Active="Yes"/>
-  <Project Name="aorServerTest" Path="aorServerTest/aorServerTest.project" Active="No"/>
+  <Project Name="aorServer" Path="aorServer/aorServer.project" Active="No"/>
+  <Project Name="aorServerTest" Path="aorServerTest/aorServerTest.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="aorServer" ConfigName="Debug"/>
       <Project Name="aorServerTest" ConfigName="Debug"/>

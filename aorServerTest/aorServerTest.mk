@@ -2,12 +2,12 @@
 ## Auto Generated makefile by CodeLite IDE
 ## any manual changes will be erased      
 ##
-## Debug
+## Release
 ProjectName            :=aorServerTest
-ConfigurationName      :=Debug
+ConfigurationName      :=Release
 WorkspacePath          := "/home/razool/Documents/GitHub/LogMeIn"
 ProjectPath            := "/home/razool/Documents/GitHub/LogMeIn/aorServerTest"
-IntermediateDirectory  :=./Debug
+IntermediateDirectory  :=./Release
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
@@ -28,7 +28,7 @@ LibraryPathSwitch      :=-L
 PreprocessorSwitch     :=-D
 SourceSwitch           :=-c 
 OutputFile             :=$(IntermediateDirectory)/$(ProjectName)
-Preprocessors          :=
+Preprocessors          :=$(PreprocessorSwitch)NDEBUG 
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
@@ -50,8 +50,8 @@ LibPath                := $(LibraryPathSwitch).
 AR       := /usr/bin/ar rcu
 CXX      := /usr/bin/g++
 CC       := /usr/bin/gcc
-CXXFLAGS :=  -g -O0 -Wall $(Preprocessors)
-CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
+CXXFLAGS :=  -O2 -Wall $(Preprocessors)
+CFLAGS   :=  -O2 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := /usr/bin/as
 
@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_0.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_1.c$(ObjectSuffix) $(IntermediateDirectory)/client_client.c$(ObjectSuffix) $(IntermediateDirectory)/client_client_socket.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_0.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_1.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_lib.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_2.c$(ObjectSuffix) $(IntermediateDirectory)/client_client.c$(ObjectSuffix) $(IntermediateDirectory)/client_client_socket.c$(ObjectSuffix) 
 
 
 
@@ -79,11 +79,11 @@ $(OutputFile): $(IntermediateDirectory)/.d $(Objects)
 	$(LinkerName) $(OutputSwitch)$(OutputFile) @$(ObjectsFileList) $(LibPath) $(Libs) $(LinkOptions)
 
 MakeIntermediateDirs:
-	@test -d ./Debug || $(MakeDirCommand) ./Debug
+	@test -d ./Release || $(MakeDirCommand) ./Release
 
 
 $(IntermediateDirectory)/.d:
-	@test -d ./Debug || $(MakeDirCommand) ./Debug
+	@test -d ./Release || $(MakeDirCommand) ./Release
 
 PreBuild:
 
@@ -115,6 +115,22 @@ $(IntermediateDirectory)/tests_test_1.c$(DependSuffix): source/tests/test_1.c
 $(IntermediateDirectory)/tests_test_1.c$(PreprocessSuffix): source/tests/test_1.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_1.c$(PreprocessSuffix) "source/tests/test_1.c"
 
+$(IntermediateDirectory)/tests_test_lib.c$(ObjectSuffix): source/tests/test_lib.c $(IntermediateDirectory)/tests_test_lib.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/tests/test_lib.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_test_lib.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/tests_test_lib.c$(DependSuffix): source/tests/test_lib.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tests_test_lib.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tests_test_lib.c$(DependSuffix) -MM "source/tests/test_lib.c"
+
+$(IntermediateDirectory)/tests_test_lib.c$(PreprocessSuffix): source/tests/test_lib.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_lib.c$(PreprocessSuffix) "source/tests/test_lib.c"
+
+$(IntermediateDirectory)/tests_test_2.c$(ObjectSuffix): source/tests/test_2.c $(IntermediateDirectory)/tests_test_2.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/tests/test_2.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_test_2.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/tests_test_2.c$(DependSuffix): source/tests/test_2.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tests_test_2.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tests_test_2.c$(DependSuffix) -MM "source/tests/test_2.c"
+
+$(IntermediateDirectory)/tests_test_2.c$(PreprocessSuffix): source/tests/test_2.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_2.c$(PreprocessSuffix) "source/tests/test_2.c"
+
 $(IntermediateDirectory)/client_client.c$(ObjectSuffix): source/client/client.c $(IntermediateDirectory)/client_client.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/client/client.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/client_client.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/client_client.c$(DependSuffix): source/client/client.c
@@ -137,6 +153,6 @@ $(IntermediateDirectory)/client_client_socket.c$(PreprocessSuffix): source/clien
 ## Clean
 ##
 clean:
-	$(RM) -r ./Debug/
+	$(RM) -r ./Release/
 
 

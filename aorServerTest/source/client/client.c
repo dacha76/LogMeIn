@@ -22,13 +22,12 @@
 \************************************************************/
 int ClientInit(
     tTEST_CLIENT * f_pClient,
-    char * f_pAddressOfRecord
+    int f_testCaseIdx
     )
 {
     int returnCode = cAOR_SERVER_TEST_RC_OK;
 
-    // copy the AOR in the client.
-    memcpy(f_pClient->addressOfRecord, f_pAddressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR);
+    f_pClient->testCaseIdx = f_testCaseIdx;
 
     // Not much to do here except init the socket using the 
     // address configured in f_pClient.

@@ -5,11 +5,10 @@
  * 
  * This file contains Test #0.
  * 
- * This test creates 8 client connections and test that the 
- * server seems to answer them.
+ * This test creates a single client connection and sends a
+ * address of record and wait for an answer from the server.
  * 
 \************************************************************/
-#include <sys/socket.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -21,12 +20,12 @@
 
 ///////////////////// DEFINITIONS //////////////////////////
 
-#define cTEST1_NUM_CLIENTS              8
-#define cTEST1_NUM_REQUESTS             1024
+#define cTEST_0_AOR_TEST_CASE_IDX       7
 
 /////////////////// STATIC PROTOTYPES //**//////////////////
 
-/////////////////////// FUNCTIONS //////////////////////////
+/////////////////////// GLOBALS //////////////////////////
+extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
 
 /************************************************************\
   Function: Test1
@@ -34,45 +33,19 @@
 int Test1()
 {
     int returnCode = cAOR_SERVER_TEST_RC_OK;
-    int i;
-    int clientIdx;
-    tTEST_CLIENT clients[cTEST1_NUM_CLIENTS];
-    char * addressOfRecord[8] = 
-                              { "0158b11f4ffa05636b000100620002",
-                                "01546f59a9033db700000100610001",
-                                "0157a7d9674085c9d7000100620002",
-                                "0142e2fa3543cb32bf000100620002",
-                                "015807d1ff2f9b9e3e000100620002",
-                                "7MR33EomywYZqwE6qIyfpHY2HTDbqn",
-                                "93wW5ULzPn0nYR0MACfxiMUnWJTUC2",
-                                "0152adf0a6c49c2884000100620007" };
-    srand(0x111);
-   
+    int testCaseIdx = cTEST_0_AOR_TEST_CASE_IDX;
+    tTEST_CLIENT client;
+    
     // Create our first client and send a string to the server.
-    memset(&clients, 0, sizeof(clients));
+    memset(&client, 0, sizeof(client));
     
-    // Init the clients
-    for (i=0; i< cTEST1_NUM_CLIENTS; i++)
-    {
-        returnCode = ClientInit(&clients[i], addressOfRecord[i]);
-        if (returnCode != cAOR_SERVER_TEST_RC_OK)
-        {
-            printf("ERROR: could not init client %d\n", i);
-            return returnCode;
-        }
-    }
-    
-    for (i=0; i<cTEST1_NUM_REQUESTS; i++)
+    returnCode = ClientInit(&client, testCaseIdx );
+    if (returnCode == cAOR_SERVER_TEST_RC_OK)
     {
         int transferSize;
-        tTEST_CLIENT * pClient;
         
-        // Select a client
-        clientIdx = rand() % cTEST1_NUM_CLIENTS;
-        pClient = &clients[clientIdx];
-        printf("Client id=%d sending request\n", pClient->socketTcp);
         // Send a request to the server.
-        transferSize = send(pClient->socketTcp, pClient->addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR, 0);
+        transferSize = write(client.socketTcp, g_aorTestCases[client.testCaseIdx].addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR);
         if (transferSize == cSERVER_TEST_AOR_VALUE_NUM_CHAR)
         {
             char buffer[1024];
@@ -80,36 +53,28 @@ int Test1()
             memset(buffer, 0, sizeof(buffer));
             
             // Wait for an answer.
-            transferSize = recv(pClient->socketTcp, buffer, sizeof(buffer), 0 );
+            transferSize = read(client.socketTcp, buffer, sizeof(buffer) );
             if (transferSize > 0)
             {
-                FILE * pLogFile;
-                
-                printf("%s\n", buffer );
-                
-                pLogFile = fopen("server_test_log.txt", "wt");
-                if (pLogFile)
+                // Verify that we received the expected response.
+                if ( memcmp(g_aorTestCases[client.testCaseIdx].expectedAnswer, buffer, transferSize))
                 {
-                    fwrite(buffer, sizeof(char), transferSize, pLogFile);
-                    fclose(pLogFile);
+                    returnCode = cAOR_SERVER_TEST_RC_TEST_ERROR;
+                    printf("ERROR: Did not get the expected answer\n");
                 }
             }
-            
-            //usleep(100000);
         }
         else
-        {
             returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_WRITE;
-            break;
-        }
     }
 
-  
+    // Sleep before terminating the client.
+    sleep(10);
+    
     // Close our client.
     if (returnCode == cAOR_SERVER_TEST_RC_OK)
     {
-        for (i=0; i<cTEST1_NUM_CLIENTS; i++)
-            ClientTerminate(&clients[i]);
+        ClientTerminate(&client);
     }
     
     return returnCode;

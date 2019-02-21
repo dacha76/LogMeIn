@@ -17,5 +17,6 @@
 
 int Test0();
 int Test1();
+int Test2();
 
 #endif /*__AOR_SERVER_TEST_H__*/

@@ -5,8 +5,8 @@
  * 
  * This file contains Test #0.
  * 
- * 
 \************************************************************/
+#include <sys/socket.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -18,7 +18,8 @@
 
 ///////////////////// DEFINITIONS //////////////////////////
 
-#define cTEST_0_AOR_TEST_CASE_IDX       7
+#define cTEST1_NUM_CLIENTS              8
+#define cTEST1_NUM_REQUESTS             2048
 
 /////////////////// STATIC PROTOTYPES //**//////////////////
 
@@ -26,31 +27,45 @@
 extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
 
 /************************************************************\
- * Function: Test0
- * 
- * This test validates the following:
- *  - A client is able to connect to the server at:
- *       ~ IP: 127.0.0.1 (localhost)
- *       ~ PORT: cSERVER_TEST_SOCKET_UDP_PORT (0x5200)
- *  - The client send a "addressOfRecord" from file "sip
- * 
+  Function: Test2
 \************************************************************/
-int Test0()
+int Test2()
 {
     int returnCode = cAOR_SERVER_TEST_RC_OK;
-    int testCaseIdx = cTEST_0_AOR_TEST_CASE_IDX;
-    tTEST_CLIENT client;
-    
+    int i;
+    int clientIdx;
+    tTEST_CLIENT clients[cTEST1_NUM_CLIENTS];
+
+    srand(0x111);
+   
     // Create our first client and send a string to the server.
-    memset(&client, 0, sizeof(client));
+    memset(&clients, 0, sizeof(clients));
     
-    returnCode = ClientInit(&client, testCaseIdx );
-    if (returnCode == cAOR_SERVER_TEST_RC_OK)
+    // Init the clients
+    for (i=0; i< cTEST1_NUM_CLIENTS; i++)
+    {
+        returnCode = ClientInit(&clients[i], i );
+        if (returnCode != cAOR_SERVER_TEST_RC_OK)
+        {
+            printf("ERROR: could not init client %d\n", i);
+            return returnCode;
+        }
+    }
+    
+    for (i=0; i<cTEST1_NUM_REQUESTS; i++)
     {
         int transferSize;
+        tTEST_CLIENT * pClient;
+        
+        // Select a client
+        clientIdx = rand() % cTEST1_NUM_CLIENTS;
+        
+        pClient = &clients[clientIdx];
         
         // Send a request to the server.
-        transferSize = write(client.socketTcp, g_aorTestCases[client.testCaseIdx].addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR);
+        printf("Client id=%d sending request\n", pClient->socketTcp);
+        transferSize = send(pClient->socketTcp, g_aorTestCases[pClient->testCaseIdx].addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR, 0);
+        
         if (transferSize == cSERVER_TEST_AOR_VALUE_NUM_CHAR)
         {
             char buffer[1024];
@@ -58,11 +73,11 @@ int Test0()
             memset(buffer, 0, sizeof(buffer));
             
             // Wait for an answer.
-            transferSize = read(client.socketTcp, buffer, sizeof(buffer) );
+            transferSize = recv(pClient->socketTcp, buffer, sizeof(buffer), 0 );
             if (transferSize > 0)
             {
                 // Verify that we received the expected response.
-                if ( memcmp(g_aorTestCases[client.testCaseIdx].expectedAnswer, buffer, transferSize))
+                if ( memcmp(g_aorTestCases[pClient->testCaseIdx].expectedAnswer, buffer, transferSize))
                 {
                     returnCode = cAOR_SERVER_TEST_RC_TEST_ERROR;
                     printf("ERROR: Did not get the expected answer\n");
@@ -70,14 +85,18 @@ int Test0()
             }
         }
         else
+        {
             returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_WRITE;
+            break;
+        }
     }
 
-   
+  
     // Close our client.
     if (returnCode == cAOR_SERVER_TEST_RC_OK)
     {
-        ClientTerminate(&client);
+        for (i=0; i<cTEST1_NUM_CLIENTS; i++)
+            ClientTerminate(&clients[i]);
     }
     
     return returnCode;

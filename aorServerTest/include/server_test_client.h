@@ -18,16 +18,23 @@ typedef struct {
     
     // Client's socket.
     int socketTcp;
-    
-    char addressOfRecord[128];
+    int testCaseIdx;
         
 } tTEST_CLIENT;
+
+typedef struct {
+    
+    char addressOfRecord[128];
+    
+    char expectedAnswer[2048];
+        
+} tTEST_CLIENT_CASE_AOR;
 
 /////////////////////// FUNCTIONS ////////////////////////////
 
 int ClientInit(
     tTEST_CLIENT * f_pClient,
-    char * f_pAddressOfRecord
+    int f_testCaseIdx
     );
 int ClientSocketInit(
     tTEST_CLIENT * f_pClient

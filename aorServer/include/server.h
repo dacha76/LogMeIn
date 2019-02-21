@@ -24,7 +24,7 @@
 
 
 #define cSERVER_CONFIG_FILE_NAME  "server.cfg"  
-#define cSERVER_DUMP_FILE_NAME    "../sip_dump.txt"
+#define cSERVER_DUMP_FILE_NAME    "../sip.dump"
 
 // Version
 #define cSERVER_VERSION                  "0.0.1-ALPHA"
