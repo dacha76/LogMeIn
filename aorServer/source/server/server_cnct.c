@@ -12,6 +12,7 @@
 
 #include "../../include/server.h"
 #include "../../include/server_rc.h"
+#include "../../include/server_log.h"
 
 ///////////////////// DEFINITIONS //////////////////////////
 
@@ -100,3 +101,58 @@ int ServerCnctFree(
     return returnCode;
 }
 
+
+
+/************************************************************\
+  Function: ServerCnctUpdate
+\************************************************************/
+int ServerCnctUpdate()
+{
+    int returnCode = cAOR_SERVER_RC_OK;
+    AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
+    tCLIENT_CNCT * pNext;
+    tCLIENT_CNCT * pCnct;
+    time_t  timeCurrent;
+  
+    // Look for connection timeout 
+    time(&timeCurrent);
+    
+    // Loop through all active connections.
+    pCnct = pServerCtx->pClientCnct;
+    while (pCnct != NULL)
+    {
+        // Save right away the next entry in case we release the current entry.
+        pNext = pCnct->pNext;
+        
+        // Check for timeout.
+        if ((timeCurrent - pCnct->timeLastRequest) > cSERVER_CLIENT_CNCT_TIMEOUT_SEC) 
+        {
+            char buffer[256];
+            
+            // Connection in timeout...
+            sprintf(buffer, "Connection timeout for id=%d", 
+                pCnct->socketTcpCnct
+                );
+            ServerLog(buffer);
+            
+            // Flag the entry as to be removed.
+            pCnct->removeFlag = 1;
+        }
+        
+        // Remove the entry (may be caused by disconnect or timeout.
+        if (pCnct->removeFlag)
+        {
+            returnCode = ServerCnctFree(pCnct);
+            if (returnCode != cAOR_SERVER_RC_OK)
+            {
+                ServerLogError("ServerCnctFree", returnCode);
+                break;
+            }
+        }
+        
+        // Move to the next connection.
+        pCnct = pNext;
+    }
+    
+    return returnCode;
+}

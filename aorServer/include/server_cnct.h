@@ -42,4 +42,7 @@ tCLIENT_CNCT * ServerCnctAlloc();
 int ServerCnctFree(
     tCLIENT_CNCT * f_pCnct
     );
+    
+int ServerCnctUpdate();
+
 #endif /*__SERVER_CLIENT_CNCT_H__*/

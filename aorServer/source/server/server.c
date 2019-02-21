@@ -111,6 +111,10 @@ void ServerTerminate()
     // Close any opened file.
     if (pServerCtx->pFileDump)
         fclose(pServerCtx->pFileDump);
+        
+    // Terminate the logs
+    ServerLogTerminate();
+        
 }
 
 

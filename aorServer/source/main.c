@@ -17,6 +17,7 @@
 
 #include "../include/server.h"
 #include "../include/server_rc.h"
+#include "../include/server_log.h"
 
 /************************************************************\
   Function: main
@@ -38,10 +39,20 @@ int main(int argc, char **argv)
         do
         {
             returnCode = ServerSocketPoll();
-            
+            if (returnCode == cAOR_SERVER_RC_OK)
+            {
+                returnCode = ServerCnctUpdate();
+                if (returnCode != cAOR_SERVER_RC_OK)
+                    ServerLogError("ServerCnctUpdate", returnCode);
+            }
+            else
+                ServerLogError("ServerSocketPoll", returnCode);
+                
         } while (returnCode == cAOR_SERVER_RC_OK);
     }
-    
+    else
+        ServerLogError("ServerInit", returnCode);
+         
     // terminate the server.
     ServerTerminate();
 

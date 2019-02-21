@@ -41,6 +41,18 @@ int ServerLogInit()
     return returnCode;
 }
 
+
+/************************************************************\
+  Function: ServerLogTerminate
+\************************************************************/
+void ServerLogTerminate()
+{
+    AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
+    
+    if (pServerCtx->pFileLog)
+        fclose(pServerCtx->pFileLog);
+}
+
 /************************************************************\
   Function: ServerLog
 \************************************************************/

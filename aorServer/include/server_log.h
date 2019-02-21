@@ -17,6 +17,8 @@
 
 /////////////////// FUNCTIONS PROTOTYPES /////////////////////////
 int ServerLogInit();
+void ServerLogTerminate();
+
 void ServerLog(
     char * f_pLogString 
     );

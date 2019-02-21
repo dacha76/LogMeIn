@@ -13,6 +13,7 @@
 
 #include "../../include/server.h"
 #include "../../include/server_rc.h"
+#include "../../include/server_log.h"
 #include "../../include/server_socket.h"
 
 ///////////////////// DEFINITIONS //////////////////////////
@@ -280,7 +281,10 @@ int ServerSocketPoll()
             {
                 returnCode = ServerCnctFree(pCnct);
                 if (returnCode != cAOR_SERVER_RC_OK)
+                {
+                    ServerLogError("ServerCnctFree", returnCode);
                     break;
+                }
             }
             
             // Move to the next connection.
