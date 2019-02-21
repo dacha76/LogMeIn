@@ -60,7 +60,7 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_0.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_1.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_lib.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_2.c$(ObjectSuffix) $(IntermediateDirectory)/client_client.c$(ObjectSuffix) $(IntermediateDirectory)/client_client_socket.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_0.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_1.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_lib.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_2.c$(ObjectSuffix) $(IntermediateDirectory)/tests_test_3.c$(ObjectSuffix) $(IntermediateDirectory)/client_client.c$(ObjectSuffix) $(IntermediateDirectory)/client_client_socket.c$(ObjectSuffix) 
 
 
 
@@ -130,6 +130,14 @@ $(IntermediateDirectory)/tests_test_2.c$(DependSuffix): source/tests/test_2.c
 
 $(IntermediateDirectory)/tests_test_2.c$(PreprocessSuffix): source/tests/test_2.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_2.c$(PreprocessSuffix) "source/tests/test_2.c"
+
+$(IntermediateDirectory)/tests_test_3.c$(ObjectSuffix): source/tests/test_3.c $(IntermediateDirectory)/tests_test_3.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/tests/test_3.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_test_3.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/tests_test_3.c$(DependSuffix): source/tests/test_3.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tests_test_3.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tests_test_3.c$(DependSuffix) -MM "source/tests/test_3.c"
+
+$(IntermediateDirectory)/tests_test_3.c$(PreprocessSuffix): source/tests/test_3.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_3.c$(PreprocessSuffix) "source/tests/test_3.c"
 
 $(IntermediateDirectory)/client_client.c$(ObjectSuffix): source/client/client.c $(IntermediateDirectory)/client_client.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/client/client.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/client_client.c$(ObjectSuffix) $(IncludePath)

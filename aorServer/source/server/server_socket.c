@@ -9,6 +9,7 @@
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 #include "../../include/server.h"
@@ -203,6 +204,10 @@ int ServerSocketPoll()
                     {
                         tJSON_ENTRY * pJsonEntry;
                         char logBuffer[256];
+                        char outputBuffer[4096] = {0};
+                        int totalOutputLength = 0;
+                        char * pToken;
+                        const char delim[2] = "\n";
                         long timeUs;
                         long timeUsStop;
                         
@@ -217,27 +222,57 @@ int ServerSocketPoll()
                         
                         // Time the processing time required for stats purposes.
                         timeUs = _GetTimeUs();
+
+                        // Tokenize the received string in case it contains more than one
+                        // AOR requests.
+                        pToken = strtok(buffer, delim);
                         
-                        // Process the request.
-                        pJsonEntry = ServerJsonEntryLookup(buffer);
-                        if (pJsonEntry)
+                        while(pToken)
                         {
-                            // We found a match.
-                            // Send back the JSON object associated to the received address of record.
-                            send(pCnct->socketTcpCnct, pJsonEntry->pJson, pJsonEntry->entryLength, 0 );   
-                        }
-                        else
-                        {
-                            // Lookup failed.
-                            pServerCtx->Stats.numLookupEntryNotFound++;
+                            //pToken = buffer;
                             
-                            sprintf(logBuffer, "ERROR: Lookup failed for connection id=%d", 
-                                pCnct->socketTcpCnct
-                                );
-                            // Log the new connection.
-                            ServerLog(logBuffer);                        
+                            // Process the request.
+                            pJsonEntry = ServerJsonEntryLookup(pToken);
+                            if (pJsonEntry)
+                            {
+                                // We found a match. check if we can add this JSON 
+                                // to the output buffer. Make sure to add the '\n' 
+                                // to the calculation.
+                                if ( (totalOutputLength + pJsonEntry->entryLength + 1) > sizeof(outputBuffer) )
+                                {
+                                    ServerLog("ERROR: Total Number of byte to answer is greater than outputBuffer, send what we can\n");              
+                                    break;
+                                }
+                                else
+                                {
+                                    // We have enough space. 
+                                    // Add '\n' if this is not the first entry.
+                                    if (totalOutputLength)
+                                        outputBuffer[totalOutputLength++] = '\n';
+                                        
+                                    // Copy the JSON object in the output buffer.
+                                    memcpy(&outputBuffer[totalOutputLength], pJsonEntry->pJson, pJsonEntry->entryLength);
+                                    totalOutputLength += pJsonEntry->entryLength;                                        
+                                }
+                             }
+                            else
+                            {
+                                // Lookup failed.
+                                pServerCtx->Stats.numLookupEntryNotFound++;
+                                
+                                sprintf(logBuffer, "ERROR: Lookup failed for connection id=%d", 
+                                    pCnct->socketTcpCnct
+                                    );
+                                // Log the new connection.
+                                ServerLog(logBuffer);      
+                            }                            
+                            
+                            pToken = strtok(NULL, delim);
                         }
                         
+                        // Send back the JSON object(s) associated to the received address of record.
+                        send(pCnct->socketTcpCnct, outputBuffer, totalOutputLength, 0 );   
+                      
                         // Udpate stats.
                         timeUsStop = _GetTimeUs();
                         timeUs = timeUsStop - timeUs;

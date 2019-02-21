@@ -25,4 +25,9 @@ tTEST_CLIENT_CASE_AOR g_aorTestCases[] = {
     {{"01546f59a9033db700000100610001"},{"{\"addressOfRecord\":\"01546f59a9033db700000100610001\",\"tenantId\":\"0127d974-f9f3-0704-2dee-000100420001\",\"uri\":\"sip:01546f59a9033db700000100610001@0.126.229.77:10902\",\"contact\":\"<sip:01546f59a9033db700000100610001@43.82.170.192:10902>;+sip.instance=\\\"<urn:uuid:58B7D3C8-145E-00EC-5FC2-861E57FD7FB2>\\\"\",\"path\":[\"<sip:Mi0xNzQuMTM0LjE0Ni4xODktMTA5MDI@200.59.12.96:5060;lr>\"],\"source\":\"238.116.236.172:10902\",\"target\":\"34.92.40.2:5061\",\"userAgent\":null,\"rawUserAgent\":\"Jive iOS Client\",\"created\":\"2017-01-06T13:25:25.539Z\",\"lineId\":\"01464e4a-6568-854b-fc96-000100620002\"}"}} ,
     };
 
+
+tTEST_CLIENT_CASE_AOR g_aorTestCaseInvalid = {
+    {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},{"{\"addressOfRecord\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\"tenantId\":\"0127d974-f9f3-0704-2dee-000100420001\",\"uri\":\"sip:0142e2fa3543cb32bf000100620002@109.149.135.172;jbcuser=cpe70\",\"contact\":\"<sip:0142e2fa3543cb32bf000100620002@207.169.118.8;jbcuser=cpe70>;methods=\\\"INVITE, ACK, BYE, CANCEL, OPTIONS, INFO, MESSAGE, SUBSCRIBE, NOTIFY, PRACK, UPDATE, REFER\\\"\",\"path\":[\"<sip:Mi0xOTkuMTkyLjE2NS4xOTQtMTk2MjI@8.63.250.250:5060;lr>\"],\"source\":\"29.211.204.173:19622\",\"target\":\"60.124.57.147:5061\",\"userAgent\":\"polycom.vvx.600\",\"rawUserAgent\":\"PolycomVVX-VVX_600-UA/132.244.41.145\",\"created\":\"2016-12-12T22:40:40.764Z\",\"lineId\":\"013db2ba-2175-6d29-6157-000100620002\"}"}
+    };
+
 /////////////////////// FUNCTIONS //////////////////////////

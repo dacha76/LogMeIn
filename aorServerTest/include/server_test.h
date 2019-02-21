@@ -15,8 +15,9 @@
 
 /////////////////////// FUNCTIONS ////////////////////////////
 
-int Test0();
+int Test0( int f_testInvalidRequest );
 int Test1();
 int Test2();
+int Test3();
 
 #endif /*__SERVER_TEST_H__*/

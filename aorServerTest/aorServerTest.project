@@ -96,6 +96,7 @@
       <File Name="source/tests/test_1.c"/>
       <File Name="source/tests/test_lib.c"/>
       <File Name="source/tests/test_2.c"/>
+      <File Name="source/tests/test_3.c"/>
     </VirtualDirectory>
     <VirtualDirectory Name="client">
       <File Name="source/client/client.c"/>

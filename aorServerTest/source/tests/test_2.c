@@ -105,11 +105,8 @@ int Test2()
 
   
     // Close our client.
-    if (returnCode == cSERVER_TEST_RC_OK)
-    {
-        for (i=0; i<cTEST1_NUM_CLIENTS; i++)
-            ClientTerminate(&clients[i]);
-    }
+    for (i=0; i<cTEST1_NUM_CLIENTS; i++)
+        ClientTerminate(&clients[i]);
     
     return returnCode;
 }
