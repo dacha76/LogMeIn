@@ -6,7 +6,7 @@
 ProjectName            :=aorServerTest
 ConfigurationName      :=Debug
 WorkspacePath          := "/home/razool/Documents/GitHub/LogMeIn"
-ProjectPath            := "/home/razool/Documents/GitHub/LogMeIn/aorClient"
+ProjectPath            := "/home/razool/Documents/GitHub/LogMeIn/aorServerTest"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
@@ -92,7 +92,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/source_main.c$(ObjectSuffix): source/main.c $(IntermediateDirectory)/source_main.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorClient/source/main.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/main.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/source_main.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/source_main.c$(DependSuffix): source/main.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/source_main.c$(ObjectSuffix) -MF$(IntermediateDirectory)/source_main.c$(DependSuffix) -MM "source/main.c"
 
@@ -100,7 +100,7 @@ $(IntermediateDirectory)/source_main.c$(PreprocessSuffix): source/main.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/source_main.c$(PreprocessSuffix) "source/main.c"
 
 $(IntermediateDirectory)/tests_test_0.c$(ObjectSuffix): source/tests/test_0.c $(IntermediateDirectory)/tests_test_0.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorClient/source/tests/test_0.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_test_0.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/tests/test_0.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_test_0.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/tests_test_0.c$(DependSuffix): source/tests/test_0.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tests_test_0.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tests_test_0.c$(DependSuffix) -MM "source/tests/test_0.c"
 
@@ -108,7 +108,7 @@ $(IntermediateDirectory)/tests_test_0.c$(PreprocessSuffix): source/tests/test_0.
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_0.c$(PreprocessSuffix) "source/tests/test_0.c"
 
 $(IntermediateDirectory)/tests_test_1.c$(ObjectSuffix): source/tests/test_1.c $(IntermediateDirectory)/tests_test_1.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorClient/source/tests/test_1.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_test_1.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/tests/test_1.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tests_test_1.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/tests_test_1.c$(DependSuffix): source/tests/test_1.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tests_test_1.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tests_test_1.c$(DependSuffix) -MM "source/tests/test_1.c"
 
@@ -116,7 +116,7 @@ $(IntermediateDirectory)/tests_test_1.c$(PreprocessSuffix): source/tests/test_1.
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tests_test_1.c$(PreprocessSuffix) "source/tests/test_1.c"
 
 $(IntermediateDirectory)/client_client.c$(ObjectSuffix): source/client/client.c $(IntermediateDirectory)/client_client.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorClient/source/client/client.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/client_client.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/client/client.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/client_client.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/client_client.c$(DependSuffix): source/client/client.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/client_client.c$(ObjectSuffix) -MF$(IntermediateDirectory)/client_client.c$(DependSuffix) -MM "source/client/client.c"
 
@@ -124,7 +124,7 @@ $(IntermediateDirectory)/client_client.c$(PreprocessSuffix): source/client/clien
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/client_client.c$(PreprocessSuffix) "source/client/client.c"
 
 $(IntermediateDirectory)/client_client_socket.c$(ObjectSuffix): source/client/client_socket.c $(IntermediateDirectory)/client_client_socket.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorClient/source/client/client_socket.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/client_client_socket.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "/home/razool/Documents/GitHub/LogMeIn/aorServerTest/source/client/client_socket.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/client_client_socket.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/client_client_socket.c$(DependSuffix): source/client/client_socket.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/client_client_socket.c$(ObjectSuffix) -MF$(IntermediateDirectory)/client_client_socket.c$(DependSuffix) -MM "source/client/client_socket.c"
 

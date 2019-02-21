@@ -1,0 +1,14 @@
+#Exclude all
+/*
+#Force Exclude all compiler artifact (.o , .a etc)
+Release/
+Debug/
+*.mk
+*.txt
+
+#Keep aorServer and aorServerTest potential files 
+#!/aorServer/
+#/aorServer/*
+#!/aorServerTest/
+#/aorServerTest/*
+

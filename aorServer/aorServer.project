@@ -108,4 +108,6 @@
     <File Name="include/server_socket.h"/>
     <File Name="include/server_log.h"/>
   </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
 </CodeLite_Project>
