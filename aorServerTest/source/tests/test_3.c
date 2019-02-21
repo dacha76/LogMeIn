@@ -53,7 +53,7 @@ int Test3()
     {
         int requestSize = 0;
         int transferSize = 0;
-        char clientReq[128] = {0};
+        char clientReq[1024] = {0};
         
         
         // Create a multiple case request. Each entry is seperated by a '\n' character.
@@ -63,7 +63,7 @@ int Test3()
         for (i=1; i<cTEST_3_NUM_AOR_PER_REQUEST; i++)
         {
             // Insert the '\n' character.
-            clientReq[requestSize++] = '\n';
+            clientReq[requestSize++] = (char)'\n';
             
             // Insert the next AOR
             memcpy(&clientReq[requestSize], g_aorTestCases[testCaseIdx[i]].addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR);
