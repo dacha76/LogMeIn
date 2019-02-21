@@ -27,8 +27,18 @@
 /////////////////////// GLOBALS //////////////////////////
 extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
 
+
 /************************************************************\
-  Function: Test1
+ * Function: Test1
+ * 
+ * This test performs the following tasks:
+ *  - Connects to the server at:
+ *       ~ IP: 127.0.0.1 (localhost)
+ *       ~ PORT: cSERVER_TEST_SOCKET_UDP_PORT (0x5200)
+ *  - Waits 10 seconds for the server to terminate the connection
+ *  - Sends an "addressOfRecord" from file "sip.dump"
+ *  - Validates that NO answer is returned by the server.
+ * 
 \************************************************************/
 int Test1()
 {
@@ -44,6 +54,9 @@ int Test1()
     {
         int transferSize;
         
+        // Sleeps to allow the connection to be terminated by the server.
+        sleep(10);
+        
         // Send a request to the server.
         transferSize = write(client.socketTcp, g_aorTestCases[client.testCaseIdx].addressOfRecord, cSERVER_TEST_AOR_VALUE_NUM_CHAR);
         if (transferSize == cSERVER_TEST_AOR_VALUE_NUM_CHAR)
@@ -54,28 +67,20 @@ int Test1()
             
             // Wait for an answer.
             transferSize = read(client.socketTcp, buffer, sizeof(buffer) );
-            if (transferSize > 0)
+            if (transferSize)
             {
-                // Verify that we received the expected response.
-                if ( memcmp(g_aorTestCases[client.testCaseIdx].expectedAnswer, buffer, transferSize))
-                {
-                    returnCode = cAOR_SERVER_TEST_RC_TEST_ERROR;
-                    printf("ERROR: Did not get the expected answer\n");
-                }
+                // ERROR  we did get an answer... 
+                // Connection should have been terminated by the server.
+                returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_READ;
+                printf("ERROR, We did receive an answer from server\n");
             }
         }
         else
             returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_WRITE;
     }
 
-    // Sleep before terminating the client.
-    sleep(10);
-    
     // Close our client.
-    if (returnCode == cAOR_SERVER_TEST_RC_OK)
-    {
-        ClientTerminate(&client);
-    }
+    ClientTerminate(&client);
     
     return returnCode;
 }

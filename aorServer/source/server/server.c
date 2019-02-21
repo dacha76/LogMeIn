@@ -3,16 +3,11 @@
  * 
  * Description: 
  * 
- *    This file contains the server initialisation and cleanup methods.
+ *    This file contains the following server public methods:
  *  
- *    serverInit() performs the following tasks:
- *    - Allocates the server context
- *    - Loads the server config
- *    - Initializes the server context
- *    - Processes the dump file
- *    - Open the TCP socket
- *  
- *    serverTerminate() releases all allocated resources
+ *    serverInit()  
+ *    serverTerminate()
+ *    ServerStats();
  * 
  *    This file also contains the declaration of the server 
  *    context: g_ServerCtx.  

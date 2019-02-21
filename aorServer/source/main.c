@@ -30,17 +30,13 @@ int main(int argc, char **argv)
     returnCode = ServerInit();
     if ( returnCode == cAOR_SERVER_RC_OK )
     {
-        // Server started
-        
-        // Log that we started the server.
-        
-        
         // Poll our socket until something goes bad.
         do
         {
             returnCode = ServerSocketPoll();
             if (returnCode == cAOR_SERVER_RC_OK)
             {
+                // Check if one of our connection should be terminated.
                 returnCode = ServerCnctUpdate();
                 if (returnCode == cAOR_SERVER_RC_OK)
                 {

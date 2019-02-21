@@ -3,12 +3,12 @@
   <Project Name="aorServer" Path="aorServer/aorServer.project" Active="No"/>
   <Project Name="aorServerTest" Path="aorServerTest/aorServerTest.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="aorServer" ConfigName="Debug"/>
       <Project Name="aorServerTest" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="aorServer" ConfigName="Release"/>
       <Project Name="aorServerTest" ConfigName="Release"/>

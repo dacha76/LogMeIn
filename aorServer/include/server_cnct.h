@@ -7,8 +7,8 @@
  * and function prototypes.
  * 
 \************************************************************/
-#ifndef __SERVER_CLIENT_CNCT_H__
-#define __SERVER_CLIENT_CNCT_H__
+#ifndef __SERVER_CNCT_H__
+#define __SERVER_CNCT_H__
 
 #include <stdio.h>
 #include <time.h>
@@ -45,4 +45,4 @@ int ServerCnctFree(
     
 int ServerCnctUpdate();
 
-#endif /*__SERVER_CLIENT_CNCT_H__*/
+#endif /*__SERVER_CNCT_H__*/

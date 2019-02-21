@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     else
         printf("OK\n\n");
     
-    printf("Test 1: 1 Query, sleep=10sec, visually verify that connection timed out: ");
+    printf("Test 1: 1 Query, sleep=10sec, connection timed out test: ");
 	returnCode = Test1();
     if (returnCode != cAOR_SERVER_TEST_RC_OK)
     {

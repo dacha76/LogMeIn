@@ -1,9 +1,9 @@
 /************************************************************\
- * File: test_0.c
+ * File: test_2.c
  * 
  * Description: 
  * 
- * This file contains Test #0.
+ * This file contains Test #2
  * 
 \************************************************************/
 #include <sys/socket.h>
@@ -27,7 +27,19 @@
 extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
 
 /************************************************************\
-  Function: Test2
+ * Function: Test2
+ * 
+ * This test performs the following tasks:
+ *  - Sets up 8 client connections.
+ *       ~ Select one of 8 test cases for each clients
+ *  - Connects each client to the server at:
+ *       ~ IP: 127.0.0.1 (localhost)
+ *       ~ PORT: cSERVER_TEST_SOCKET_UDP_PORT (0x5200)
+ *  - Performs cTEST1_NUM_REQUESTS random requests
+ *       ~ Selects one of the client (randomly)
+ *       ~ Sends its associated request
+ *       ~ Validates that the server answer with the expected JSON object.
+ * 
 \************************************************************/
 int Test2()
 {

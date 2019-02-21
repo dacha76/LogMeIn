@@ -1,5 +1,5 @@
 /************************************************************\
- * File: aor_server_rc.h
+ * File: server_rc.h
  * 
  * Description: 
  * 

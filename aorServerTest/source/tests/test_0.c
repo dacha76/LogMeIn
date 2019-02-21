@@ -28,11 +28,12 @@ extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
 /************************************************************\
  * Function: Test0
  * 
- * This test validates the following:
- *  - A client is able to connect to the server at:
+ * This test performs the following tasks:
+ *  - Connects to the server at:
  *       ~ IP: 127.0.0.1 (localhost)
  *       ~ PORT: cSERVER_TEST_SOCKET_UDP_PORT (0x5200)
- *  - The client send a "addressOfRecord" from file "sip
+ *  - Sends an "addressOfRecord" from file "sip.dump"
+ *  - Validates that the server returns the expected JSON object.
  * 
 \************************************************************/
 int Test0()

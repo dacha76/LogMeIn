@@ -1,1 +1,1 @@
-./Release/source_main.c.o ./Release/server_server_cnct.c.o ./Release/server_server.c.o ./Release/server_server_Json.c.o ./Release/server_server_socket.c.o ./Release/server_server_log.c.o
+./Debug/source_main.c.o ./Debug/server_server_cnct.c.o ./Debug/server_server.c.o ./Debug/server_server_Json.c.o ./Debug/server_server_socket.c.o ./Debug/server_server_log.c.o
