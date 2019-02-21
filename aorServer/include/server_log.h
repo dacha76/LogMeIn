@@ -19,6 +19,7 @@
 int ServerLogInit();
 void ServerLogTerminate();
 
+void ServerLogStats();
 void ServerLog(
     char * f_pLogString 
     );

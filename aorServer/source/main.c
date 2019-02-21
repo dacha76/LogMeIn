@@ -42,7 +42,12 @@ int main(int argc, char **argv)
             if (returnCode == cAOR_SERVER_RC_OK)
             {
                 returnCode = ServerCnctUpdate();
-                if (returnCode != cAOR_SERVER_RC_OK)
+                if (returnCode == cAOR_SERVER_RC_OK)
+                {
+                    // Check if it is time to update stats.
+                    ServerStats();
+                }
+                else
                     ServerLogError("ServerCnctUpdate", returnCode);
             }
             else

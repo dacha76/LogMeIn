@@ -44,7 +44,7 @@ tCLIENT_CNCT * ServerCnctAlloc()
         pServerCtx->pClientCnct = pCnct;
         
         // Indicate that we have a new entry.
-        pServerCtx->numClientCnct++;
+        pServerCtx->Stats.numTcpCnctActive++;
     }
         
     return pCnct;
@@ -75,16 +75,17 @@ int ServerCnctFree(
     {
         int i;
         // We need to go through the list.
-        for (i=0; i<pServerCtx->numClientCnct; i++)
+        for (i=0; i<pServerCtx->Stats.numTcpCnctActive; i++)
         {
             if (pCnctList->pNext == f_pCnct)
             {
                 pCnctList->pNext = f_pCnct->pNext;
                 break;
             }
+            pCnctList = pCnctList->pNext;
         }
         
-        if (i == pServerCtx->numClientCnct)
+        if (i == pServerCtx->Stats.numTcpCnctActive)
         {
             // We did not find any connection pointing to our entry.
             returnCode = cAOR_SERVER_RC_CNCT_REMOVE_ERROR;
@@ -94,7 +95,12 @@ int ServerCnctFree(
     if (returnCode == cAOR_SERVER_RC_OK)
     {
         // All went well, update the stats and free our entry.
-        pServerCtx->numClientCnct--;
+        if (f_pCnct->socketTcpCnct)
+            close(f_pCnct->socketTcpCnct);
+            
+        pServerCtx->Stats.numTcpCnctActive--;
+        pServerCtx->Stats.numTcpCnctClosed++;
+
         free(f_pCnct);
     }
     

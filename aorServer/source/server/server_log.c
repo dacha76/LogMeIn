@@ -93,3 +93,41 @@ void ServerLogError(
     sprintf(buffer, "ERROR 0x%08X from %s", f_error, f_pErrorSource);
     ServerLog(buffer);
 }
+
+
+
+/************************************************************\
+  Function: ServerLogStats
+\************************************************************/
+void ServerLogStats()
+{
+    AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
+    AOR_SERVER_STATS * pStats = &pServerCtx->Stats;
+    
+    char bufferLog[2048] = { 0 }; 
+    int avgTimeUs = 0;
+
+    if (pStats->numLookupRequest)
+        avgTimeUs = (int)(pStats->lookupRequestTotalTimeUs/pStats->numLookupRequest);
+    
+    sprintf(bufferLog, "Stats Report:\n\n\
+         -numTcpCnctActive=%d\n\
+         -numTcpCnctClosed=%d\n\n\
+         -lookupRequestMinTimeUs=%d\n\
+         -lookupRequestAvgTimeUs=%d\n\
+         -lookupRequestMaxTimeUs=%d\n\n\
+         -numLookupRequest=%d\n\
+         -numLookupEntryNotFound=%d\n\
+         -numLookupKeyCollision=%d\n\n",
+         pStats->numTcpCnctActive,
+         pStats->numTcpCnctClosed,
+         pStats->lookupRequestMinTimeUs,
+         avgTimeUs,
+         pStats->lookupRequestMaxTimeUs,
+         pStats->numLookupRequest,
+         pStats->numLookupEntryNotFound,
+         pStats->numLookupKeyCollision
+         );
+         
+    ServerLog(bufferLog);
+}

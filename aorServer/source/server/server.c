@@ -56,7 +56,10 @@ int ServerInit()
     
     // Set the server start time used by the logs.
     time(&pServerCtx->timeStart);
-  
+    
+    // Init stats.
+    pServerCtx->Stats.lookupRequestMinTimeUs = 0xFFFFFFFF;
+    
     // Load the dump.
     returnCode = ServerLogInit();
     if (returnCode == cAOR_SERVER_RC_OK)
@@ -84,17 +87,17 @@ int ServerInit()
 void ServerTerminate()
 {
     AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
-
+    tCLIENT_CNCT * pCnct = pServerCtx->pClientCnct;
+    tCLIENT_CNCT * pNext;
+    
     // Remove all client connections.
-    while( pServerCtx->numClientCnct != 0)
+    while(pCnct)
     {
-        tCLIENT_CNCT * pCnct = pServerCtx->pClientCnct;
-        pServerCtx->pClientCnct = pCnct->pNext;
+        pNext = pCnct->pNext;
+        ServerCnctFree(pCnct);
         
-        close(pCnct->socketTcpCnct);
-        
-        free(pCnct);
-        pServerCtx->numClientCnct--;
+        // Move to our next entry.
+        pCnct = pNext;
     }
     
     // Terminate the server socket.
@@ -117,6 +120,30 @@ void ServerTerminate()
         
 }
 
+
+
+/************************************************************\
+ * Function: ServerStats
+ * 
+ * This function checks if it is time to print out the stats.
+   
+\************************************************************/
+void ServerStats()
+{
+    AOR_SERVER_CTX * pServerCtx = ServerGetCtx();
+    time_t  timeCurrent;  
+    
+    time(&timeCurrent);
+
+    if ((timeCurrent - pServerCtx->timeLastStatsUpdate) > cSERVER_STATS_INTERVAL_IN_SEC)
+    {
+        ServerLogStats();
+        
+        // Update the stats time.
+        pServerCtx->timeLastStatsUpdate = timeCurrent;
+    }
+    
+}
 
 
 

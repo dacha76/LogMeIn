@@ -19,6 +19,7 @@
 ///////////////////// DEFINITIONS //////////////////////////
 
 /////////////////// STATIC PROTOTYPES //////////////////////
+static long _GetTimeUs();
 
 /////////////////////// FUNCTIONS //////////////////////////
 
@@ -47,10 +48,14 @@ int ServerSocketInit( )
             if (!bind(pServerCtx->socketTcp, (struct sockaddr *)&pServerCtx->socketAddr, sizeof(pServerCtx->socketAddr)))
             {
                 // Socket has been bound to our IP, 
-                if (listen(pServerCtx->socketTcp, cSERVER_SOCKET_MAX_PENDING_CNCT)<0)
+                if (listen(pServerCtx->socketTcp, cSERVER_SOCKET_MAX_PENDING_CNCT) >= 0)
                 {
-                    returnCode = cAOR_SERVER_RC_SOCKET_ERROR_LISTEN;
+                    char bufferLog[256];
+                    sprintf(bufferLog, "Server listening on all IPs, port=%d", cSERVER_SOCKET_UDP_PORT );
+                    ServerLog(bufferLog);
                 }
+                else
+                    returnCode = cAOR_SERVER_RC_SOCKET_ERROR_LISTEN;
             }
             else
                 returnCode = cAOR_SERVER_RC_SOCKET_ERROR_BIND;
@@ -198,15 +203,20 @@ int ServerSocketPoll()
                     {
                         tJSON_ENTRY * pJsonEntry;
                         char logBuffer[256];
+                        long timeUs;
+                        long timeUsStop;
                         
-                        time(&pCnct->timeLastRequest);
-                
-                        // Connection in timeout... remove from list.
+                        // Log the reception of new request.
+                        time(&pCnct->timeLastRequest);  
+                        pServerCtx->Stats.numLookupRequest++;
+
                         sprintf(logBuffer, "Request Rcvd from id=%d", 
                             pCnct->socketTcpCnct
                             );
-                        // Log the new connection.
                         ServerLog(logBuffer);                        
+                        
+                        // Time the processing time required for stats purposes.
+                        timeUs = _GetTimeUs();
                         
                         // Process the request.
                         pJsonEntry = ServerJsonEntryLookup(buffer);
@@ -218,14 +228,27 @@ int ServerSocketPoll()
                         }
                         else
                         {
-                            // Connection in timeout... remove from list.
+                            // Lookup failed.
+                            pServerCtx->Stats.numLookupEntryNotFound++;
+                            
                             sprintf(logBuffer, "ERROR: Lookup failed for connection id=%d", 
                                 pCnct->socketTcpCnct
                                 );
                             // Log the new connection.
                             ServerLog(logBuffer);                        
-                          
                         }
+                        
+                        // Udpate stats.
+                        timeUsStop = _GetTimeUs();
+                        timeUs = timeUsStop - timeUs;
+                        
+                        pServerCtx->Stats.lookupRequestTotalTimeUs += timeUs;
+                        
+                        if (timeUs < pServerCtx->Stats.lookupRequestMinTimeUs)
+                            pServerCtx->Stats.lookupRequestMinTimeUs = timeUs;
+                         
+                        if (timeUs > pServerCtx->Stats.lookupRequestMaxTimeUs)
+                            pServerCtx->Stats.lookupRequestMaxTimeUs = timeUs;
                     } 
                     
                     if (returnCode != cAOR_SERVER_RC_OK)
@@ -242,57 +265,21 @@ int ServerSocketPoll()
     {
         returnCode = cAOR_SERVER_RC_SOCKET_ERROR_SELECT;
     }
-
-    // Check if we have some connections in timeout.
-    if (returnCode == cAOR_SERVER_RC_OK)
-    {
-        time_t  timeCurrent;
-        tCLIENT_CNCT * pNext;
-        
-        // Look for connection timeout 
-        time(&timeCurrent);
-        
-        // Loop through all active connections.
-        pCnct = pServerCtx->pClientCnct;
-        while (pCnct != NULL)
-        {
-            // Save right away the next entry in case we release the current entry.
-            pNext = pCnct->pNext;
-            
-            // Check for timeout.
-            if ((timeCurrent - pCnct->timeLastRequest) > cSERVER_CLIENT_CNCT_TIMEOUT_SEC) 
-            {
-                char buffer[256];
-                
-                // Connection in timeout... remove from list.
-                sprintf(buffer, "Connection timeout for id=%d", 
-                    pCnct->socketTcpCnct
-                    );
-                    
-                // Log the new connection.
-                ServerLog(buffer);
-                
-                // Flag the entry as to be removed.
-                pCnct->removeFlag = 1;
-            }
-            
-            // Remove the entry.
-            if (pCnct->removeFlag)
-            {
-                returnCode = ServerCnctFree(pCnct);
-                if (returnCode != cAOR_SERVER_RC_OK)
-                {
-                    ServerLogError("ServerCnctFree", returnCode);
-                    break;
-                }
-            }
-            
-            // Move to the next connection.
-            pCnct = pNext;
-        }
-    }
     
     return returnCode;
 }
     
  
+ 
+ /************************************************************\
+  * Static Function: _GetTimeUs
+  * 
+  * Returns time in microseconds.
+  * 
+\************************************************************/
+static long _GetTimeUs()
+{
+	struct timeval currentTime;
+	gettimeofday(&currentTime, NULL);
+	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+}

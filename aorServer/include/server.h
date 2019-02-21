@@ -23,11 +23,14 @@
 //////////////////////// DEFINITIONS /////////////////////////////
 
 
-#define cSERVER_CONFIG_FILE_NAME    "server.cfg"  
+#define cSERVER_CONFIG_FILE_NAME  "server.cfg"  
 #define cSERVER_DUMP_FILE_NAME    "../sip_dump.txt"
 
 // Version
-#define cSERVER_VERSION             "0.0.1-ALPHA"
+#define cSERVER_VERSION                  "0.0.1-ALPHA"
+
+#define cSERVER_STATS_INTERVAL_IN_SEC    30     // 30 second intervals.
+
 
 //////////////////////// TYPEDEF /////////////////////////////
 
@@ -36,6 +39,12 @@ typedef struct
     unsigned numLookupKeyCollision;
     unsigned numLookupEntryNotFound;
     unsigned numLookupRequest;
+    long long lookupRequestTotalTimeUs;
+    unsigned lookupRequestMaxTimeUs;
+    unsigned lookupRequestMinTimeUs;
+    
+    unsigned numTcpCnctActive;
+    unsigned numTcpCnctClosed;
     
 } AOR_SERVER_STATS;
 
@@ -50,7 +59,7 @@ typedef struct
     tJSON_ENTRY * pJsonEntry;
     
     // Client connections
-    unsigned numClientCnct;
+    // unsigned numClientCnct;
     tCLIENT_CNCT * pClientCnct;
     
     // Dump File information.
@@ -60,6 +69,7 @@ typedef struct
     // Server information
     FILE * pFileLog;
     time_t  timeStart;        // Time, in seconds when this server was started.
+    time_t  timeLastStatsUpdate;        // Time, in seconds when this server was started.
  
     AOR_SERVER_STATS Stats;
     
@@ -79,6 +89,7 @@ static inline AOR_SERVER_CTX * ServerGetCtx()
 int ServerInit();
 int ServerSocketPoll();
 
+void ServerStats();
 void ServerTerminate();
 
 void ServerLog(
