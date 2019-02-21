@@ -1,8 +1,8 @@
 .PHONY: clean All
 
 All:
-	@echo "----------Building project:[ aorServerTest - Debug ]----------"
-	@cd "aorServerTest" && "$(MAKE)" -f  "aorServerTest.mk"
+	@echo "----------Building project:[ aorServer - Debug ]----------"
+	@cd "aorServer" && "$(MAKE)" -f  "aorServer.mk"
 clean:
-	@echo "----------Cleaning project:[ aorServerTest - Debug ]----------"
-	@cd "aorServerTest" && "$(MAKE)" -f  "aorServerTest.mk" clean
+	@echo "----------Cleaning project:[ aorServer - Debug ]----------"
+	@cd "aorServer" && "$(MAKE)" -f  "aorServer.mk" clean
