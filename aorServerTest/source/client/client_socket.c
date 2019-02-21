@@ -27,7 +27,7 @@ int ClientSocketInit(
     tTEST_CLIENT * f_pClient
     )
 {
-    int returnCode = cAOR_SERVER_TEST_RC_OK;
+    int returnCode = cSERVER_TEST_RC_OK;
 
     // Create a socket.
     f_pClient->socketTcp = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP );
@@ -45,10 +45,10 @@ int ClientSocketInit(
         socketAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
         
         if (connect(f_pClient->socketTcp, (struct sockaddr *)&socketAddr, sizeof(socketAddr)) < 0)
-            returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_CONNECT;
+            returnCode = cSERVER_TEST_RC_SOCKET_ERROR_CONNECT;
     }
     else
-        returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR;
+        returnCode = cSERVER_TEST_RC_SOCKET_ERROR;
           
     return returnCode;
 }

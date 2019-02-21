@@ -8,7 +8,7 @@ int main(int argc, char **argv)
     
     printf("Test 0: 1 Query, No timeout: ");
 	returnCode = Test0();
-    if (returnCode != cAOR_SERVER_TEST_RC_OK)
+    if (returnCode != cSERVER_TEST_RC_OK)
     {
         printf("ERROR 0x%08X\n\n", returnCode);
         return returnCode; 
@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     
     printf("Test 1: 1 Query, sleep=10sec, connection timed out test: ");
 	returnCode = Test1();
-    if (returnCode != cAOR_SERVER_TEST_RC_OK)
+    if (returnCode != cSERVER_TEST_RC_OK)
     {
         printf("ERROR 0x%08X\n\n", returnCode);
         return returnCode; 
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     
     printf("Test 2, opening 8 connection, sending 2048 req: ");
 	returnCode = Test2();
-    if (returnCode != cAOR_SERVER_TEST_RC_OK)
+    if (returnCode != cSERVER_TEST_RC_OK)
     {
         printf("ERROR 0x%08X\n\n", returnCode);
         return returnCode; 

@@ -42,7 +42,7 @@ extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
 \************************************************************/
 int Test1()
 {
-    int returnCode = cAOR_SERVER_TEST_RC_OK;
+    int returnCode = cSERVER_TEST_RC_OK;
     int testCaseIdx = cTEST_0_AOR_TEST_CASE_IDX;
     tTEST_CLIENT client;
     
@@ -50,7 +50,7 @@ int Test1()
     memset(&client, 0, sizeof(client));
     
     returnCode = ClientInit(&client, testCaseIdx );
-    if (returnCode == cAOR_SERVER_TEST_RC_OK)
+    if (returnCode == cSERVER_TEST_RC_OK)
     {
         int transferSize;
         
@@ -71,12 +71,12 @@ int Test1()
             {
                 // ERROR  we did get an answer... 
                 // Connection should have been terminated by the server.
-                returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_READ;
+                returnCode = cSERVER_TEST_RC_SOCKET_ERROR_READ;
                 printf("ERROR, We did receive an answer from server\n");
             }
         }
         else
-            returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_WRITE;
+            returnCode = cSERVER_TEST_RC_SOCKET_ERROR_WRITE;
     }
 
     // Close our client.

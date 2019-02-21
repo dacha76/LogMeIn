@@ -25,7 +25,7 @@ int ClientInit(
     int f_testCaseIdx
     )
 {
-    int returnCode = cAOR_SERVER_TEST_RC_OK;
+    int returnCode = cSERVER_TEST_RC_OK;
 
     f_pClient->testCaseIdx = f_testCaseIdx;
 

@@ -43,7 +43,7 @@ extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
 \************************************************************/
 int Test2()
 {
-    int returnCode = cAOR_SERVER_TEST_RC_OK;
+    int returnCode = cSERVER_TEST_RC_OK;
     int i;
     int clientIdx;
     tTEST_CLIENT clients[cTEST1_NUM_CLIENTS];
@@ -57,7 +57,7 @@ int Test2()
     for (i=0; i< cTEST1_NUM_CLIENTS; i++)
     {
         returnCode = ClientInit(&clients[i], i );
-        if (returnCode != cAOR_SERVER_TEST_RC_OK)
+        if (returnCode != cSERVER_TEST_RC_OK)
         {
             printf("ERROR: could not init client %d\n", i);
             return returnCode;
@@ -91,21 +91,21 @@ int Test2()
                 // Verify that we received the expected response.
                 if ( memcmp(g_aorTestCases[pClient->testCaseIdx].expectedAnswer, buffer, transferSize))
                 {
-                    returnCode = cAOR_SERVER_TEST_RC_TEST_ERROR;
+                    returnCode = cSERVER_TEST_RC_TEST_ERROR;
                     printf("ERROR: Did not get the expected answer\n");
                 }
             }
         }
         else
         {
-            returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_WRITE;
+            returnCode = cSERVER_TEST_RC_SOCKET_ERROR_WRITE;
             break;
         }
     }
 
   
     // Close our client.
-    if (returnCode == cAOR_SERVER_TEST_RC_OK)
+    if (returnCode == cSERVER_TEST_RC_OK)
     {
         for (i=0; i<cTEST1_NUM_CLIENTS; i++)
             ClientTerminate(&clients[i]);

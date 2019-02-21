@@ -6,13 +6,6 @@
  * This file contains test cases resources and functions.
  * 
 \************************************************************/
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
-#include "../../include/server_test.h"
-#include "../../include/server_test_rc.h"
 #include "../../include/server_test_client.h"
 
 ///////////////////// DEFINITIONS //////////////////////////

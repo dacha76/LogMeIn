@@ -38,7 +38,7 @@ extern tTEST_CLIENT_CASE_AOR g_aorTestCases[];
 \************************************************************/
 int Test0()
 {
-    int returnCode = cAOR_SERVER_TEST_RC_OK;
+    int returnCode = cSERVER_TEST_RC_OK;
     int testCaseIdx = cTEST_0_AOR_TEST_CASE_IDX;
     tTEST_CLIENT client;
     
@@ -46,7 +46,7 @@ int Test0()
     memset(&client, 0, sizeof(client));
     
     returnCode = ClientInit(&client, testCaseIdx );
-    if (returnCode == cAOR_SERVER_TEST_RC_OK)
+    if (returnCode == cSERVER_TEST_RC_OK)
     {
         int transferSize;
         
@@ -65,18 +65,18 @@ int Test0()
                 // Verify that we received the expected response.
                 if ( memcmp(g_aorTestCases[client.testCaseIdx].expectedAnswer, buffer, transferSize))
                 {
-                    returnCode = cAOR_SERVER_TEST_RC_TEST_ERROR;
+                    returnCode = cSERVER_TEST_RC_TEST_ERROR;
                     printf("ERROR: Did not get the expected answer\n");
                 }
             }
         }
         else
-            returnCode = cAOR_SERVER_TEST_RC_SOCKET_ERROR_WRITE;
+            returnCode = cSERVER_TEST_RC_SOCKET_ERROR_WRITE;
     }
 
    
     // Close our client.
-    if (returnCode == cAOR_SERVER_TEST_RC_OK)
+    if (returnCode == cSERVER_TEST_RC_OK)
     {
         ClientTerminate(&client);
     }
